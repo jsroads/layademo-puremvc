@@ -1,0 +1,1 @@
+require("bin/subpackages/res/init.js");

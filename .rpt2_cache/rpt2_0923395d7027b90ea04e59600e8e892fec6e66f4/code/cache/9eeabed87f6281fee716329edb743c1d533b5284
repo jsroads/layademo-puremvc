@@ -1,0 +1,5 @@
+{
+  "code": "export default class WarnCode {\r\n}\r\nWarnCode.SEVER_ERROR = \"服务器正在优化\";\r\nWarnCode.GOLD_NOT_ENOUGH = \"金币不足\";\r\nWarnCode.MAX_LEVEL = \"已达当前等级上限\";\r\nWarnCode.VIDEO = \"视频获得\";\r\nWarnCode.SHARE = \"分享获得\";\r\nWarnCode.FRE = \"免费获得\";\r\nWarnCode.SINGLETON_MSG = \"this singleton already constructed!\";\r\n//# sourceMappingURL=WarnCode.js.map",
+  "references": [],
+  "map": "{\"version\":3,\"file\":\"WarnCode.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/model/data/WarnCode.ts\"],\"names\":[],\"mappings\":\"AAIA,MAAM,CAAC,OAAO,OAAO,QAAQ;;AAClB,oBAAW,GAAW,SAAS,CAAC;AAChC,wBAAe,GAAW,MAAM,CAAC;AACjC,kBAAS,GAAW,UAAU,CAAC;AAC/B,cAAK,GAAW,MAAM,CAAC;AACvB,cAAK,GAAW,MAAM,CAAC;AACvB,YAAG,GAAW,MAAM,CAAC;AAErB,sBAAa,GAAG,qCAAqC,CAAC\"}"
+}

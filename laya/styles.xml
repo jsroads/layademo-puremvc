@@ -1,0 +1,5 @@
+<res>
+   <item name="light/base_bg.jpg" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=0,2,0,2" picType="0" scale="0"/>
+   <item name="bitmapfont" type="" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="comp/img_blank.png" type="Image" compress="0" pack="0" quality="80" props="sizeGrid=1,1,1,1" picType="0" scale="0"/>
+</res>

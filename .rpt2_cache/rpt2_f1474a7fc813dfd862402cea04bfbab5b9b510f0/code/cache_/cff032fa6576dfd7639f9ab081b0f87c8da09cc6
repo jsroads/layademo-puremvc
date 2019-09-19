@@ -1,0 +1,8 @@
+{
+  "code": "import LoadingView from \"./LoadingView\";\r\nimport AppConstants from \"../../AppConstants\";\r\nvar Mediator = puremvc.Mediator;\r\nvar Tween = Laya.Tween;\r\nvar Ease = Laya.Ease;\r\nexport default class LoadingMadiator extends Mediator {\r\n    constructor(mediatorName, viewComponent) {\r\n        super(LoadingMadiator.NAME, new LoadingView());\r\n    }\r\n    onRegister() {\r\n        this.getViewComponent().on(LoadingView.LOAD_COMPLETE, this, () => {\r\n            this.sendNotification(AppConstants.LOADING_SUCCESS);\r\n        });\r\n    }\r\n    listNotificationInterests() {\r\n        return [\r\n            AppConstants.LOGIN_SUCCESS,\r\n            AppConstants.CLOSE_LOADING\r\n        ];\r\n    }\r\n    handleNotification(notification) {\r\n        switch (notification.getName()) {\r\n            case AppConstants.LOGIN_SUCCESS:\r\n                this.getViewComponent().open();\r\n                break;\r\n            case AppConstants.CLOSE_LOADING:\r\n                this.sendNotification(AppConstants.REMOVE_MADIATOR, LoadingMadiator.NAME);\r\n                Tween.to(this.getViewComponent(), { alpha: 0 }, 300, Ease.strongIn, Laya.Handler.create(this, () => {\r\n                    this.getViewComponent().destroy();\r\n                }));\r\n                break;\r\n            default:\r\n        }\r\n    }\r\n}\r\nLoadingMadiator.NAME = \"LoadingMadiator\";\r\n",
+  "references": [
+    "/jsroads/blog/layademo-puremvc/src/view/loading/LoadingView.ts",
+    "/jsroads/blog/layademo-puremvc/src/AppConstants.ts",
+    "/jsroads/blog/layademo-puremvc/src/ApplicationFacade.ts"
+  ]
+}

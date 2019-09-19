@@ -1,0 +1,4 @@
+{
+  "code": "export class PayOnOff {\r\n    static get nextBannerId() {\r\n        if (!PayOnOff.bannerList.length) {\r\n            return \"\";\r\n        }\r\n        let idx = (PayOnOff.bannerIndex++) / PayOnOff.bannerList.length;\r\n        return PayOnOff.bannerList[idx];\r\n    }\r\n    ;\r\n}\r\nPayOnOff.bannerId = [];\r\nPayOnOff.bannerList = [];\r\nPayOnOff.URL = {\r\n    video: \"common/img_video.png\",\r\n    share: \"common/img_share.png\",\r\n    free: \"common/img_free.png\"\r\n};\r\nPayOnOff.bannerIndex = -1;\r\n",
+  "references": []
+}

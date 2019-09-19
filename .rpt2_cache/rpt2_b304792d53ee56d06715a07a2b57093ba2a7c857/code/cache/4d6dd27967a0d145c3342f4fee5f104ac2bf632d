@@ -1,0 +1,4 @@
+{
+  "code": "export default class AppConstants {\r\n}\r\nAppConstants.SHOW_LOGIN = \"show_login\";\r\nAppConstants.LOGIN = \"login\";\r\nAppConstants.LOGIN_SUCCESS = \"login_success\";\r\nAppConstants.AUTHORIZE_COMPLETE = \"authorize_complete\";\r\nAppConstants.HEART_START = \"heart_start\";\r\nAppConstants.LOADING_SUCCESS = \"loading_success\";\r\nAppConstants.FLLOW_INIT = \"fllow_init\";\r\nAppConstants.CLOSE_LOADING = \"close_loading\";\r\nAppConstants.SHOW_RANK = \"show_rank\";\r\nAppConstants.UPDATE_USER = \"update_user\";\r\nAppConstants.UPDATE_GOLD = \"update_gold\";\r\nAppConstants.NETWORK_STATUS_CHANGE = \"network_status_change\";\r\nAppConstants.REMOVE_MADIATOR = \"remove_madiator\";\r\n",
+  "references": []
+}

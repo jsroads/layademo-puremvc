@@ -1,0 +1,5 @@
+{
+  "code": "export default class ResConfig {\r\n    static get configs() {\r\n        if (!this._configs.length) {\r\n            this._configs.push(ResConfig.appConfigPath, ResConfig.resConfigPath);\r\n        }\r\n        return this._configs;\r\n    }\r\n}\r\nResConfig.appConfigPath = \"res/jsons/appconfig.json\";\r\nResConfig.resConfigPath = \"res/jsons/resconfig.json\";\r\nResConfig._configs = [];\r\nResConfig.lightRes = [\"\"];\r\n//# sourceMappingURL=ResConfig.js.map",
+  "references": [],
+  "map": "{\"version\":3,\"file\":\"ResConfig.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/utils/ResConfig.ts\"],\"names\":[],\"mappings\":\"AAIA,MAAM,CAAC,OAAO,OAAO,SAAS;IAC1B,MAAM,KAAK,OAAO;QACd,IAAI,CAAC,IAAI,CAAC,QAAQ,CAAC,MAAM,EAAE;YACvB,IAAI,CAAC,QAAQ,CAAC,IAAI,CAAC,SAAS,CAAC,aAAa,EAAE,SAAS,CAAC,aAAa,CAAC,CAAC;SACxE;QACD,OAAO,IAAI,CAAC,QAAQ,CAAC;IACzB,CAAC;;AAEa,uBAAa,GAAG,0BAA0B,CAAC;AAC3C,uBAAa,GAAG,0BAA0B,CAAC;AAC1C,kBAAQ,GAAa,EAAE,CAAC;AACxB,kBAAQ,GAAa,CAAC,EAAE,CAAC,CAAC\"}"
+}

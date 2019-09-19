@@ -1,0 +1,41 @@
+{
+  "game": {
+    "offline": {
+      "name": "离线奖励",
+      "shareTimes":"0",
+      "type": "video"
+    },
+    "wheel": {
+      "name": "大转盘",
+      "shareTimes":"0",
+      "type": "video"
+    },
+    "magic": {
+      "name": "摸金符",
+      "shareTimes":"0",
+      "type": "video"
+    },
+    "hunt": {
+      "name": "寻宝结果",
+      "shareTimes":"-1,-1,-1,0",
+      "type": "video"
+    },
+    "box": {
+      "name": "宝箱",
+      "shareTimes":"-1,-1,0",
+      "type": "video"
+    },
+    "upgradehunt": {
+      "name": "免费升级",
+      "shareTimes":"50",
+      "type": "video"
+    }
+  },
+  "introduction": "'share'代表分享，'video'代表视频，'free'代表免费获得",
+  "bannerId": "adunit-80ad8f78976030d4",
+  "shortVideoId": "adunit-9765d46007937822",
+  "longVideoId": "adunit-7d3294d9fc82f398",
+  "passThousand": true,
+  "close": false,
+  "description1": "close,表示是否开启"
+}

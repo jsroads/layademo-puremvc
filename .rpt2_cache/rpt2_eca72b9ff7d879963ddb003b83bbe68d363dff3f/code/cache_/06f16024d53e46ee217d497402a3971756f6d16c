@@ -1,0 +1,4 @@
+{
+  "code": "export var CustomEventConstants;\r\n(function (CustomEventConstants) {\r\n    CustomEventConstants[\"RED_POINT_CHECK\"] = \"red_point_check\";\r\n})(CustomEventConstants || (CustomEventConstants = {}));\r\n",
+  "references": []
+}

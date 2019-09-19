@@ -1,0 +1,44 @@
+{
+  "jsonsOptions": {
+    "mypay": "res/jsons/cloud/free.json",
+    "share": "res/jsons/cloud/sharemsg.json"
+  },
+  "atlas": [
+    {
+      "path": "res/atlas/light.atlas",
+      "nativeFile": true
+    },
+    {
+      "path": "res/atlas/comp.atlas",
+      "nativeFile": true
+    }
+  ],
+  "scenes": [
+  ],
+  "images": [
+    {
+      "path": "light/base_bg.jpg",
+      "nativeFile": true
+    },
+    {
+      "path": "bitmapfont/test.jpg",
+      "nativeFile": true
+    }
+  ],
+  "sks": [
+  ],
+  "jsons": [
+  ],
+  "fonts": [
+    "bitmapfont/test.fnt"
+  ],
+  "particles": [
+    "res/particles/gold.part"
+  ],
+  "prefabs": [
+  ],
+  "text_assets": [
+  ],
+  "subpackages": {
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "code": "import AppMediator from \"../../AppMediator\";\r\nvar SimpleCommand = puremvc.SimpleCommand;\r\nexport default class ViewPrepCommand extends SimpleCommand {\r\n    constructor() {\r\n        super();\r\n    }\r\n    execute(notification) {\r\n        this.facade.registerMediator(new AppMediator());\r\n    }\r\n}\r\n",
+  "references": [
+    "/jsroads/blog/layademo-puremvc/src/AppMediator.ts"
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "code": "export default class MyLocalStorage {\r\n    static get i() {\r\n        if (!this._i)\r\n            this._i = new MyLocalStorage();\r\n        return this._i;\r\n    }\r\n    write(key, value, callBack) {\r\n        Laya.LocalStorage.setJSON(key, JSON.stringify(value));\r\n        if (callBack)\r\n            callBack();\r\n    }\r\n    read(key, callBack, defaultValue) {\r\n        let value = Laya.LocalStorage.getJSON(key);\r\n        if (callBack) {\r\n            callBack(value || defaultValue);\r\n        }\r\n        else {\r\n            return value || defaultValue;\r\n        }\r\n    }\r\n    clearByKey(key) {\r\n        Laya.LocalStorage.removeItem(key);\r\n    }\r\n    clearAll() {\r\n        Laya.LocalStorage.clear();\r\n    }\r\n}\r\n",
+  "references": []
+}

@@ -1,0 +1,27 @@
+{
+  "gameOptions": {
+    "platform": "wx",
+    "basePath": "这个地方是CDN资源地址 比如https://cdn.smile.my.com/minigame",
+    "name": "TestDemo",
+    "version": "1.0.0",
+    "appId": "wxxxxxxxxxxxxxx"
+  },
+  "subpackages": [
+    {
+      "name": "music",
+      "root": "subpackages/res/music"
+    },
+    {
+      "name": "sound",
+      "root": "subpackages/res/sound"
+    },
+    {
+      "name": "spine",
+      "root": "subpackages/res/spine"
+    },
+    {
+      "name": "src",
+      "root": "subpackages/src/game.js"
+    }
+  ]
+}

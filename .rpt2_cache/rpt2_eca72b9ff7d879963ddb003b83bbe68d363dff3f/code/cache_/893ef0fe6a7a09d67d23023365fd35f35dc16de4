@@ -1,0 +1,8 @@
+{
+  "code": "var MacroCommand = puremvc.MacroCommand;\r\nimport ControllerCommands from \"./ControllerCommands\";\r\nimport ModelPrepCommand from \"./ModelPrepCommand\";\r\nimport ViewPrepCommand from \"./ViewPrepCommand\";\r\nexport default class StartupCommand extends MacroCommand {\r\n    constructor() {\r\n        super();\r\n    }\r\n    initializeMacroCommand() {\r\n        this.addSubCommand(ControllerCommands);\r\n        this.addSubCommand(ModelPrepCommand);\r\n        this.addSubCommand(ViewPrepCommand);\r\n    }\r\n}\r\n",
+  "references": [
+    "/jsroads/blog/layademo-puremvc/src/controller/core/ControllerCommands.ts",
+    "/jsroads/blog/layademo-puremvc/src/controller/core/ModelPrepCommand.ts",
+    "/jsroads/blog/layademo-puremvc/src/controller/core/ViewPrepCommand.ts"
+  ]
+}

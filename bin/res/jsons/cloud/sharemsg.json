@@ -1,0 +1,14 @@
+{
+  "1": {
+    "id": 1,
+    "title": "好游戏就分享给你",
+    "imageUrl": "share/1.jpg",
+    "show": 1
+  },
+  "2": {
+    "id": 2,
+    "title": "兄弟，就差你了",
+    "imageUrl": "share/2.jpg",
+    "show": 1
+  }
+}

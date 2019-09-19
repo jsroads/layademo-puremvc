@@ -1,0 +1,7 @@
+{
+  "code": "import ResConfig from \"../../utils/ResConfig\";\r\nconst JSONS_OPTIONS = \"jsonsOptions\";\r\nconst SHARE = \"share\";\r\nexport default class JsonPool {\r\n    static get i() {\r\n        if (!this._i)\r\n            this._i = new JsonPool();\r\n        return this._i;\r\n    }\r\n    get share() {\r\n        if (!this._share)\r\n            this._share = JsonPool.i.getJsonByKey(SHARE);\r\n        return this._share;\r\n    }\r\n    getJsonByKey(key, value) {\r\n        value = value || JSONS_OPTIONS;\r\n        return Laya.loader.getRes(ResConfig.options[value][key]);\r\n    }\r\n}\r\n//# sourceMappingURL=JsonPool.js.map",
+  "references": [
+    "/jsroads/blog/layademo-puremvc/src/utils/ResConfig.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"JsonPool.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/model/data/JsonPool.ts\"],\"names\":[],\"mappings\":\"AAIA,OAAO,SAAS,MAAM,uBAAuB,CAAC;AAE9C,MAAM,aAAa,GAAW,cAAc,CAAC;AAC7C,MAAM,KAAK,GAAW,OAAO,CAAC;AAE9B,MAAM,CAAC,OAAO,OAAO,QAAQ;IAEzB,MAAM,KAAK,CAAC;QACR,IAAG,CAAC,IAAI,CAAC,EAAE;YAAC,IAAI,CAAC,EAAE,GAAG,IAAI,QAAQ,EAAE,CAAC;QACrC,OAAO,IAAI,CAAC,EAAE,CAAC;IACnB,CAAC;IAKD,IAAY,KAAK;QACb,IAAI,CAAC,IAAI,CAAC,MAAM;YAAE,IAAI,CAAC,MAAM,GAAG,QAAQ,CAAC,CAAC,CAAC,YAAY,CAAC,KAAK,CAAC,CAAC;QAC/D,OAAO,IAAI,CAAC,MAAM,CAAC;IACvB,CAAC;IACO,YAAY,CAAC,GAAW,EAAE,KAAc;QAC5C,KAAK,GAAG,KAAK,IAAI,aAAa,CAAC;QAC/B,OAAO,IAAI,CAAC,MAAM,CAAC,MAAM,CAAC,SAAS,CAAC,OAAO,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC;IAC7D,CAAC;CACJ\"}"
+}

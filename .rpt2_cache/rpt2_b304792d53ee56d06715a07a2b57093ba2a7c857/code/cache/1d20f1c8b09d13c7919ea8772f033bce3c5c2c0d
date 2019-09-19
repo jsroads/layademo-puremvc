@@ -1,0 +1,7 @@
+{
+  "code": "import AppConstants from \"../../AppConstants\";\r\nimport LoginCommand from \"../command/LoginCommand\";\r\nvar SimpleCommand = puremvc.SimpleCommand;\r\nexport default class ControllerCommands extends SimpleCommand {\r\n    constructor() {\r\n        super();\r\n    }\r\n    execute(note) {\r\n        this.facade.registerCommand(AppConstants.LOGIN, LoginCommand);\r\n    }\r\n}\r\n",
+  "references": [
+    "/jsroads/blog/layademo-puremvc/src/AppConstants.ts",
+    "/jsroads/blog/layademo-puremvc/src/controller/command/LoginCommand.ts"
+  ]
+}

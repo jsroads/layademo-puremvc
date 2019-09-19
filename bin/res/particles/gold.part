@@ -1,0 +1,143 @@
+{
+  "textureName": "common/gold_p.png",
+  "positionVariance": {
+    "0": 30,
+    "1": 0,
+    "2": 0
+  },
+  "minVerticalVelocity": 1000,
+  "minVerticalEndRadian": 3,
+  "minStartSize": 20,
+  "minStartRadius": 50,
+  "minRotateSpeed": 1,
+  "minHorizontalVelocity": 400,
+  "minHorizontalEndRadian": 0,
+  "minEndSize": 20,
+  "minEndRadius": 50,
+  "minColor": {
+    "0": 1,
+    "1": 1,
+    "2": 1,
+    "3": 1
+  },
+  "maxVerticalVelocity": 1500,
+  "maxVerticalEndRadian": 3,
+  "maxStartSize": 20,
+  "maxStartRadius": 60,
+  "maxRotateSpeed": -1,
+  "maxPartices": 125,
+  "maxHorizontalVelocity": 600,
+  "maxHorizontalEndRadian": 2,
+  "maxEndSize": 20,
+  "maxEndRadius": 60,
+  "maxColor": {
+    "0": 1,
+    "1": 1,
+    "2": 1,
+    "3": 1
+  },
+  "gravity": {
+    "0": 0,
+    "1": -2000,
+    "2": -100
+  },
+  "endVelocity": -1,
+  "emitterVelocitySensitivity": 16,
+  "duration": 3.5,
+  "colorComponentInter": true,
+  "blendState": 0,
+  "ageAddScale": 0,
+  "backColor": "#000000",
+  "textureFileName": "comp\\clip_num.png",
+  "textureCount": 3,
+  "minHorizontalStartRadian": 0,
+  "maxHorizontalStartRadian": 0,
+  "minVerticalStartRadian": 0,
+  "maxVerticalStartRadian": 0,
+  "emitterType": "null",
+  "emissionRate": 0,
+  "sphereEmitterRadius": 1,
+  "sphereEmitterVelocity": 0,
+  "sphereEmitterVelocityAddVariance": 0,
+  "ringEmitterRadius": 30,
+  "ringEmitterVelocity": 0,
+  "ringEmitterVelocityAddVariance": 0,
+  "ringEmitterUp": 2,
+  "minStartColor": {
+    "0": 1,
+    "1": 1,
+    "2": 1,
+    "3": 1
+  },
+  "maxStartColor": {
+    "0": 1,
+    "1": 1,
+    "2": 1,
+    "3": 1
+  },
+  "minEndColor": {
+    "0": 1,
+    "1": 1,
+    "2": 1,
+    "3": 1
+  },
+  "maxEndColor": {
+    "0": 1,
+    "1": 1,
+    "2": 1,
+    "3": 1
+  },
+  "pointEmitterPosition": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+  },
+  "pointEmitterPositionVariance": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+  },
+  "pointEmitterVelocity": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+  },
+  "pointEmitterVelocityAddVariance": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+  },
+  "boxEmitterCenterPosition": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+  },
+  "boxEmitterSize": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+  },
+  "boxEmitterVelocity": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+  },
+  "boxEmitterVelocityAddVariance": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+  },
+  "sphereEmitterCenterPosition": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+  },
+  "ringEmitterCenterPosition": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+  },
+  "useEndRadian": false,
+  "disableColor": true,
+  "bg": ""
+}
