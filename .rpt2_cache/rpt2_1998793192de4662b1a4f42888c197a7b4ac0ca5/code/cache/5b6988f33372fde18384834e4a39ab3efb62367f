@@ -1,7 +1,0 @@
-{
-  "code": "import WxSDK from \"./WxSDK\";\r\nvar Browser = Laya.Browser;\r\nexport default class Platform {\r\n    platformConfig() {\r\n        let PLATFORM_NAME = Browser.onMiniGame ? \"wx\" : \"web\";\r\n        switch (PLATFORM_NAME) {\r\n            case \"wx\":\r\n                window.platform.i = new WxSDK();\r\n                break;\r\n            case \"tt\":\r\n                break;\r\n            default:\r\n        }\r\n    }\r\n}\r\n//# sourceMappingURL=Platform.js.map",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/platform/WxSDK.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"Platform.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/platform/Platform.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,KAAK,MAAM,SAAS,CAAC;AAC5B,IAAO,OAAO,GAAG,IAAI,CAAC,OAAO,CAAC;AAM9B,MAAM,CAAC,OAAO,OAAO,QAAQ;IAKlB,cAAc;QACjB,IAAI,aAAa,GAAG,OAAO,CAAC,UAAU,CAAA,CAAC,CAAA,IAAI,CAAA,CAAC,CAAA,KAAK,CAAC;QAClD,QAAQ,aAAa,EAAE;YACnB,KAAK,IAAI;gBACL,MAAM,CAAC,QAAQ,CAAC,CAAC,GAAE,IAAI,KAAK,EAAE,CAAC;gBAC/B,MAAM;YACV,KAAK,IAAI;gBACL,MAAM;YACV,QAAQ;SACX;IACL,CAAC;CACJ\"}"
-}

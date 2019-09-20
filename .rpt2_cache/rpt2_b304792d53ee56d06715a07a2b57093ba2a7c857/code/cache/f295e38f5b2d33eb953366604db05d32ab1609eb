@@ -1,4 +1,0 @@
-{
-  "code": "export default class ResConfig {\r\n    static get configs() {\r\n        if (!this._configs.length) {\r\n            this._configs.push(ResConfig.appConfigPath, ResConfig.resConfigPath);\r\n        }\r\n        return this._configs;\r\n    }\r\n}\r\nResConfig.appConfigPath = \"res/jsons/appconfig.json\";\r\nResConfig.resConfigPath = \"res/jsons/resconfig.json\";\r\nResConfig._configs = [];\r\nResConfig.lightRes = [\"\"];\r\n",
-  "references": []
-}

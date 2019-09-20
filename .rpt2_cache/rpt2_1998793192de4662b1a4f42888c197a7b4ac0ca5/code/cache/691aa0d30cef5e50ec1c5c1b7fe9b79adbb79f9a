@@ -1,7 +1,0 @@
-{
-  "code": "import LoginProxy from \"../../model/proxy/LoginProxy\";\r\nvar SimpleCommand = puremvc.SimpleCommand;\r\nexport default class LoginCommand extends SimpleCommand {\r\n    constructor() {\r\n        super();\r\n    }\r\n    execute(notification) {\r\n        let proxy = this.facade.retrieveProxy(LoginProxy.NAME);\r\n        proxy.login(notification.getBody());\r\n    }\r\n}\r\n//# sourceMappingURL=LoginCommand.js.map",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/model/proxy/LoginProxy.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"LoginCommand.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/controller/command/LoginCommand.ts\"],\"names\":[],\"mappings\":\"AAIA,OAAO,UAAU,MAAM,8BAA8B,CAAC;AACtD,IAAO,aAAa,GAAG,OAAO,CAAC,aAAa,CAAC;AAE7C,MAAM,CAAC,OAAO,OAAO,YAAa,SAAQ,aAAa;IACnD;QACI,KAAK,EAAE,CAAC;IACZ,CAAC;IAEM,OAAO,CAAC,YAAmC;QAC9C,IAAI,KAAK,GAA2B,IAAI,CAAC,MAAM,CAAC,aAAa,CAAC,UAAU,CAAC,IAAI,CAAC,CAAC;QAC/E,KAAK,CAAC,KAAK,CAAC,YAAY,CAAC,OAAO,EAAE,CAAC,CAAC;IACxC,CAAC;CACJ\"}"
-}

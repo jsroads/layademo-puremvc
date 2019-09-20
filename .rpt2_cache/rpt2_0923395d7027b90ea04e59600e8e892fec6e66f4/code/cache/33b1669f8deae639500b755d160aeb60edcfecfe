@@ -1,7 +1,0 @@
-{
-  "code": "import WarnCode from \"../model/data/WarnCode\";\r\nexport class CustomEventDispatcher extends Laya.EventDispatcher {\r\n    static get i() {\r\n        if (!this._i)\r\n            this._i = new CustomEventDispatcher();\r\n        return this._i;\r\n    }\r\n    constructor() {\r\n        super();\r\n        if (CustomEventDispatcher._i) {\r\n            throw new Error(WarnCode.SINGLETON_MSG);\r\n            return;\r\n        }\r\n    }\r\n}\r\n//# sourceMappingURL=CustomEventDispatcher.js.map",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/model/data/WarnCode.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"CustomEventDispatcher.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/events/CustomEventDispatcher.ts\"],\"names\":[],\"mappings\":\"AAIA,OAAO,QAAQ,MAAM,wBAAwB,CAAC;AAE9C,MAAM,OAAO,qBAAsB,SAAQ,IAAI,CAAC,eAAe;IAC3D,MAAM,KAAK,CAAC;QACR,IAAI,CAAC,IAAI,CAAC,EAAE;YAAE,IAAI,CAAC,EAAE,GAAG,IAAI,qBAAqB,EAAE,CAAC;QACpD,OAAO,IAAI,CAAC,EAAE,CAAC;IACnB,CAAC;IAID;QACI,KAAK,EAAE,CAAC;QACR,IAAI,qBAAqB,CAAC,EAAE,EAAE;YAC1B,MAAM,IAAI,KAAK,CAAC,QAAQ,CAAC,aAAa,CAAC,CAAC;YACxC,OAAO;SACV;IACL,CAAC;CACJ\"}"
-}

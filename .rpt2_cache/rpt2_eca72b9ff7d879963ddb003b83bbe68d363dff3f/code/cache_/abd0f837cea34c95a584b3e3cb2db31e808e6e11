@@ -1,6 +1,0 @@
-{
-  "code": "import Https from \"./net/Https\";\r\nexport default class BaseProxy extends puremvc.Proxy {\r\n    constructor(proxyName, data) {\r\n        super(proxyName, data);\r\n    }\r\n    send(msg, callBack) {\r\n        let xhr = new Https();\r\n        xhr.sendMassage(msg, callBack);\r\n    }\r\n    login(msg, callBack) {\r\n        let xhr = new Https();\r\n        xhr.login(msg, callBack);\r\n    }\r\n    responseCallBack(data) {\r\n        this.setData(data);\r\n    }\r\n}\r\nBaseProxy.NAME = \"BaseProxy\";\r\n",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/model/proxy/net/Https.ts"
-  ]
-}

@@ -1,6 +1,0 @@
-{
-  "code": "import StartupCommand from \"./controller/core/StartupCommand\";\r\nvar Facade = puremvc.Facade;\r\nexport class ApplicationFacade extends Facade {\r\n    constructor() {\r\n        super();\r\n    }\r\n    static getInstance() {\r\n        if (!this.instance)\r\n            this.instance = new ApplicationFacade();\r\n        return (this.instance);\r\n    }\r\n    initializeFacade() {\r\n        super.initializeFacade();\r\n        this.registerCommand(ApplicationFacade.START_UP, StartupCommand);\r\n    }\r\n    startup(stage) {\r\n        this.sendNotification(ApplicationFacade.START_UP, stage);\r\n        this.removeCommand(ApplicationFacade.START_UP);\r\n    }\r\n}\r\nApplicationFacade.START_UP = \"start_up\";\r\n",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/controller/core/StartupCommand.ts"
-  ]
-}

@@ -1,7 +1,0 @@
-{
-  "code": "import WarnCode from \"../model/data/WarnCode\";\r\nexport class CustomEventDispatcher extends Laya.EventDispatcher {\r\n    static get i() {\r\n        if (!this._i)\r\n            this._i = new CustomEventDispatcher();\r\n        return this._i;\r\n    }\r\n    constructor() {\r\n        super();\r\n        if (CustomEventDispatcher.i) {\r\n            throw new Error(WarnCode.SINGLETON_MSG);\r\n            return;\r\n        }\r\n        this.initEventListener();\r\n    }\r\n    initEventListener() {\r\n    }\r\n}\r\n",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/events/CustomEventConstants.ts",
-    "/jsroads/blog/layademo-puremvc/src/model/data/WarnCode.ts"
-  ]
-}

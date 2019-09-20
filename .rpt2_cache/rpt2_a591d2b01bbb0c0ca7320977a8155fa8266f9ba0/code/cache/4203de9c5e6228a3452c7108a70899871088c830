@@ -1,7 +1,0 @@
-{
-  "code": "import LoginProxy from \"../../model/proxy/LoginProxy\";\r\nvar SimpleCommand = puremvc.SimpleCommand;\r\nexport default class ModelPrepCommand extends SimpleCommand {\r\n    constructor() {\r\n        super();\r\n    }\r\n    execute(note) {\r\n        this.facade.registerProxy(new LoginProxy());\r\n    }\r\n}\r\n//# sourceMappingURL=ModelPrepCommand.js.map",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/model/proxy/LoginProxy.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"ModelPrepCommand.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/controller/core/ModelPrepCommand.ts\"],\"names\":[],\"mappings\":\"AAMA,OAAO,UAAU,MAAM,8BAA8B,CAAC;AACtD,IAAO,aAAa,GAAG,OAAO,CAAC,aAAa,CAAC;AAG7C,MAAM,CAAC,OAAO,OAAO,gBAAiB,SAAQ,aAAa;IACvD;QACI,KAAK,EAAE,CAAC;IACZ,CAAC;IAGM,OAAO,CAAC,IAAmB;QAC9B,IAAI,CAAC,MAAM,CAAC,aAAa,CAAC,IAAI,UAAU,EAAE,CAAC,CAAC;IAChD,CAAC;CACJ\"}"
-}

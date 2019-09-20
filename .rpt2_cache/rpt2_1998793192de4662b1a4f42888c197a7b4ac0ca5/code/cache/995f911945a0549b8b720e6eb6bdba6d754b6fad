@@ -1,8 +1,0 @@
-{
-  "code": "import { ui } from \"../../ui/layaMaxUI\";\r\nvar Tween = Laya.Tween;\r\nvar MainUI = ui.smile.MainUI;\r\nimport { Fonts } from \"../../model/data/GameConstans\";\r\nexport default class MainScene extends MainUI {\r\n    constructor() {\r\n        super();\r\n    }\r\n    onAwake() {\r\n        this.titleText.font = Fonts.TEST;\r\n        this.event(MainScene.READY_EVENT);\r\n    }\r\n    onEnable() {\r\n        this.alpha = 0;\r\n        Tween.to(this, { alpha: 1 }, 300);\r\n    }\r\n}\r\nMainScene.READY_EVENT = \"ready_event\";\r\n//# sourceMappingURL=MainScene.js.map",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/ui/layaMaxUI.ts",
-    "/jsroads/blog/layademo-puremvc/src/model/data/GameConstans.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"MainScene.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/view/maiui/MainScene.ts\"],\"names\":[],\"mappings\":\"AAIA,OAAO,EAAC,EAAE,EAAC,MAAM,oBAAoB,CAAC;AACtC,IAAO,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;AAC1B,IAAO,MAAM,GAAG,EAAE,CAAC,KAAK,CAAC,MAAM,CAAC;AAChC,OAAO,EAAC,KAAK,EAAC,MAAM,+BAA+B,CAAC;AAEpD,MAAM,CAAC,OAAO,OAAO,SAAU,SAAQ,MAAM;IAGzC;QACI,KAAK,EAAE,CAAC;IACZ,CAAC;IAEM,OAAO;QACV,IAAI,CAAC,SAAS,CAAC,IAAI,GAAG,KAAK,CAAC,IAAI,CAAC;QACjC,IAAI,CAAC,KAAK,CAAC,SAAS,CAAC,WAAW,CAAC,CAAC;IACtC,CAAC;IAEM,QAAQ;QACX,IAAI,CAAC,KAAK,GAAG,CAAC,CAAC;QACf,KAAK,CAAC,EAAE,CAAC,IAAI,EAAE,EAAC,KAAK,EAAE,CAAC,EAAC,EAAE,GAAG,CAAC,CAAA;IACnC,CAAC;;AAda,qBAAW,GAAW,aAAa,CAAC\"}"
-}

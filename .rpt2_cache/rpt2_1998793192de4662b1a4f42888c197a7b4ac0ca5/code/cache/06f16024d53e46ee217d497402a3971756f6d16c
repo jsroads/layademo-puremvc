@@ -1,5 +1,0 @@
-{
-  "code": "export var CustomEventConstants;\r\n(function (CustomEventConstants) {\r\n    CustomEventConstants[\"RED_POINT_CHECK\"] = \"red_point_check\";\r\n})(CustomEventConstants || (CustomEventConstants = {}));\r\n//# sourceMappingURL=CustomEventConstants.js.map",
-  "references": [],
-  "map": "{\"version\":3,\"file\":\"CustomEventConstants.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/events/CustomEventConstants.ts\"],\"names\":[],\"mappings\":\"AAIA,MAAM,CAAN,IAAY,oBAEX;AAFD,WAAY,oBAAoB;IAC5B,2DAAmC,CAAA;AACvC,CAAC,EAFW,oBAAoB,KAApB,oBAAoB,QAE/B\"}"
-}

@@ -1,7 +1,0 @@
-{
-  "code": "import Https from \"./net/Https\";\r\nexport default class BaseProxy extends puremvc.Proxy {\r\n    constructor(proxyName, data) {\r\n        super(proxyName, data);\r\n    }\r\n    send(msg, callBack) {\r\n        let xhr = new Https();\r\n        xhr.sendMassage(msg, callBack);\r\n    }\r\n    login(msg, callBack) {\r\n        let xhr = new Https();\r\n        xhr.login(msg, callBack);\r\n    }\r\n    responseCallBack(data) {\r\n        this.setData(data);\r\n    }\r\n}\r\nBaseProxy.NAME = \"BaseProxy\";\r\n//# sourceMappingURL=BaseProxy.js.map",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/model/proxy/net/Https.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"BaseProxy.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/model/proxy/BaseProxy.ts\"],\"names\":[],\"mappings\":\"AAIA,OAAO,KAAK,MAAM,aAAa,CAAC;AAEhC,MAAM,CAAC,OAAO,OAAO,SAAU,SAAQ,OAAO,CAAC,KAAK;IAGhD,YAAY,SAAkB,EAAE,IAAU;QACtC,KAAK,CAAC,SAAS,EAAE,IAAI,CAAC,CAAC;IAC3B,CAAC;IAEM,IAAI,CAAC,GAAQ,EAAE,QAAmB;QACrC,IAAI,GAAG,GAAG,IAAI,KAAK,EAAE,CAAC;QACtB,GAAG,CAAC,WAAW,CAAC,GAAG,EAAE,QAAQ,CAAC,CAAC;IACnC,CAAC;IAEM,KAAK,CAAC,GAAQ,EAAE,QAAkB;QACrC,IAAI,GAAG,GAAG,IAAI,KAAK,EAAE,CAAC;QACtB,GAAG,CAAC,KAAK,CAAC,GAAG,EAAE,QAAQ,CAAC,CAAC;IAC7B,CAAC;IAES,gBAAgB,CAAC,IAAS;QAChC,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,CAAC;IACvB,CAAC;;AAlBa,cAAI,GAAW,WAAW,CAAC\"}"
-}

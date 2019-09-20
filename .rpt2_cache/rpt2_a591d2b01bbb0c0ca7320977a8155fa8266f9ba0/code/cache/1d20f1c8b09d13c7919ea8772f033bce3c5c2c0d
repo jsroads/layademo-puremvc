@@ -1,8 +1,0 @@
-{
-  "code": "import AppConstants from \"../../AppConstants\";\r\nimport LoginCommand from \"../command/LoginCommand\";\r\nvar SimpleCommand = puremvc.SimpleCommand;\r\nexport default class ControllerCommands extends SimpleCommand {\r\n    constructor() {\r\n        super();\r\n    }\r\n    execute(note) {\r\n        this.facade.registerCommand(AppConstants.LOGIN, LoginCommand);\r\n    }\r\n}\r\n//# sourceMappingURL=ControllerCommands.js.map",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/AppConstants.ts",
-    "/jsroads/blog/layademo-puremvc/src/controller/command/LoginCommand.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"ControllerCommands.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/controller/core/ControllerCommands.ts\"],\"names\":[],\"mappings\":\"AAKA,OAAO,YAAY,MAAM,oBAAoB,CAAC;AAC9C,OAAO,YAAY,MAAM,yBAAyB,CAAC;AACnD,IAAO,aAAa,GAAG,OAAO,CAAC,aAAa,CAAC;AAG7C,MAAM,CAAC,OAAO,OAAO,kBAAmB,SAAQ,aAAa;IACzD;QACI,KAAK,EAAE,CAAC;IACZ,CAAC;IAEM,OAAO,CAAC,IAAmB;QAE9B,IAAI,CAAC,MAAM,CAAC,eAAe,CAAC,YAAY,CAAC,KAAK,EAAE,YAAY,CAAC,CAAC;IAClE,CAAC;CACJ\"}"
-}

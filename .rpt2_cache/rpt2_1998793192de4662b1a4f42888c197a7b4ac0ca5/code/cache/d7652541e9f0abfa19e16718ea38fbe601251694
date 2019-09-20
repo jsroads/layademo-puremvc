@@ -1,5 +1,0 @@
-{
-  "code": "export default class BaseSDK {\r\n    login(callBack) {\r\n    }\r\n}\r\n//# sourceMappingURL=BaseSDK.js.map",
-  "references": [],
-  "map": "{\"version\":3,\"file\":\"BaseSDK.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/platform/BaseSDK.ts\"],\"names\":[],\"mappings\":\"AAIA,MAAM,CAAC,OAAO,OAAO,OAAO;IAEd,KAAK,CAAC,QAAiB;IAEjC,CAAC;CACJ\"}"
-}

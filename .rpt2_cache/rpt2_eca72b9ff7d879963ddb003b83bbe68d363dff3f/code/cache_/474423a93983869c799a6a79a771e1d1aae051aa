@@ -1,4 +1,0 @@
-{
-  "code": "var View = Laya.View;\r\nvar Dialog = Laya.Dialog;\r\nvar Scene = Laya.Scene;\r\nvar REG = Laya.ClassUtils.regClass;\r\n",
-  "references": []
-}

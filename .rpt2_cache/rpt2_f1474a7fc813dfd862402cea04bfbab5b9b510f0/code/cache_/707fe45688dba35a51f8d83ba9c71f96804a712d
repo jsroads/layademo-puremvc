@@ -1,4 +1,0 @@
-{
-  "code": "export default class RedPoint {\r\n    constructor(id, has, group) {\r\n        this._id = id;\r\n        this._has = has || false;\r\n        this._group = group || [0];\r\n    }\r\n    get group() {\r\n        return this._group;\r\n    }\r\n    set group(value) {\r\n        this._group = value;\r\n    }\r\n    get has() {\r\n        return this._has;\r\n    }\r\n    set has(value) {\r\n        this._has = value;\r\n    }\r\n    get id() {\r\n        return this._id;\r\n    }\r\n    set id(value) {\r\n        this._id = value;\r\n    }\r\n}\r\n",
-  "references": []
-}

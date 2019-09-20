@@ -1,7 +1,0 @@
-{
-  "code": "import AppMediator from \"../../AppMediator\";\r\nvar SimpleCommand = puremvc.SimpleCommand;\r\nexport default class ViewPrepCommand extends SimpleCommand {\r\n    constructor() {\r\n        super();\r\n    }\r\n    execute(notification) {\r\n        this.facade.registerMediator(new AppMediator());\r\n    }\r\n}\r\n//# sourceMappingURL=ViewPrepCommand.js.map",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/AppMediator.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"ViewPrepCommand.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/controller/core/ViewPrepCommand.ts\"],\"names\":[],\"mappings\":\"AAKA,OAAO,WAAW,MAAM,mBAAmB,CAAC;AAC5C,IAAO,aAAa,GAAG,OAAO,CAAC,aAAa,CAAC;AAE7C,MAAM,CAAC,OAAO,OAAO,eAAgB,SAAQ,aAAa;IACtD;QACI,KAAK,EAAE,CAAC;IACZ,CAAC;IAEM,OAAO,CAAC,YAAmC;QAE9C,IAAI,CAAC,MAAM,CAAC,gBAAgB,CAAC,IAAI,WAAW,EAAE,CAAC,CAAC;IACpD,CAAC;CACJ\"}"
-}

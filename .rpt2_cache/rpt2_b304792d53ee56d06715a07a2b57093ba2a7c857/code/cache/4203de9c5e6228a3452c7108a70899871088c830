@@ -1,6 +1,0 @@
-{
-  "code": "import LoginProxy from \"../../model/proxy/LoginProxy\";\r\nvar SimpleCommand = puremvc.SimpleCommand;\r\nexport default class ModelPrepCommand extends SimpleCommand {\r\n    constructor() {\r\n        super();\r\n    }\r\n    execute(note) {\r\n        this.facade.registerProxy(new LoginProxy());\r\n    }\r\n}\r\n",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/model/proxy/LoginProxy.ts"
-  ]
-}

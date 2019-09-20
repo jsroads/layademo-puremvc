@@ -1,9 +1,0 @@
-{
-  "code": "var MacroCommand = puremvc.MacroCommand;\r\nimport ControllerCommands from \"./ControllerCommands\";\r\nimport ModelPrepCommand from \"./ModelPrepCommand\";\r\nimport ViewPrepCommand from \"./ViewPrepCommand\";\r\nexport default class StartupCommand extends MacroCommand {\r\n    constructor() {\r\n        super();\r\n    }\r\n    initializeMacroCommand() {\r\n        this.addSubCommand(ControllerCommands);\r\n        this.addSubCommand(ModelPrepCommand);\r\n        this.addSubCommand(ViewPrepCommand);\r\n    }\r\n}\r\n//# sourceMappingURL=StartupCommand.js.map",
-  "references": [
-    "/jsroads/blog/layademo-puremvc/src/controller/core/ControllerCommands.ts",
-    "/jsroads/blog/layademo-puremvc/src/controller/core/ModelPrepCommand.ts",
-    "/jsroads/blog/layademo-puremvc/src/controller/core/ViewPrepCommand.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"StartupCommand.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/controller/core/StartupCommand.ts\"],\"names\":[],\"mappings\":\"AAQA,IAAO,YAAY,GAAG,OAAO,CAAC,YAAY,CAAC;AAC3C,OAAO,kBAAkB,MAAM,sBAAsB,CAAC;AACtD,OAAO,gBAAgB,MAAM,oBAAoB,CAAC;AAClD,OAAO,eAAe,MAAM,mBAAmB,CAAC;AAEhD,MAAM,CAAC,OAAO,OAAO,cAAe,SAAQ,YAAY;IACpD;QACI,KAAK,EAAE,CAAC;IACZ,CAAC;IAGM,sBAAsB;QAOzB,IAAI,CAAC,aAAa,CAAC,kBAAkB,CAAC,CAAC;QACvC,IAAI,CAAC,aAAa,CAAC,gBAAgB,CAAC,CAAC;QACrC,IAAI,CAAC,aAAa,CAAC,eAAe,CAAC,CAAC;IACxC,CAAC;CACJ\"}"
-}
