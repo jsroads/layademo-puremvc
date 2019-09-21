@@ -10,17 +10,18 @@ export default class MyLocalStorage {
         return this._i;
     }
 
-    write(key: string, value: any, callBack?: Function) {
-        Laya.LocalStorage.setJSON(key, JSON.stringify(value));
+    write(key: any, value: any, callBack?: Function) {
+        console.log("smile----:" + JSON.stringify(value));
+        Laya.LocalStorage.setItem(key, JSON.stringify(value));
         if (callBack) callBack();
     }
 
     read(key: string, callBack: Function, defaultValue?: any): any {
-        let value = Laya.LocalStorage.getJSON(key);
+        let value = Laya.LocalStorage.getItem(key);
         if (callBack) {
-            callBack(value || defaultValue, key);
+            callBack(JSON.parse(value) || defaultValue, key);
         } else {
-            return value || defaultValue;
+            return JSON.parse(value) || defaultValue;
         }
     }
 

@@ -1,10 +1,20 @@
 import GameConfig from "./GameConfig";
 import {ApplicationFacade} from "./ApplicationFacade";
-import WxSDK from "./platform/WxSDK";
-import Browser = Laya.Browser;
 import Platform from "./platform/Platform";
+import Logger = log4ts.Logger;
+import IAppender = log4ts.IAppender;
+import ILayout = log4ts.ILayout;
+import LoggerConfig = log4ts.LoggerConfig;
+import BasicLayout = log4ts.BasicLayout;
+import ConsoleAppender = log4ts.ConsoleAppender;
+import LogLevel = log4ts.LogLevel;
 
 class Main {
+    private logger: Logger;
+    private appender: IAppender;
+    private layout: ILayout;
+    private config: LoggerConfig;
+
     constructor() {
         //根据IDE设置初始化引擎
         if (window["Laya3D"]) Laya3D.init(GameConfig.width, GameConfig.height);
@@ -43,9 +53,24 @@ class Main {
         window.platform.platformConfig();
         //初始化puremvc 框架  完成后 从 AppMediator.ts
         ApplicationFacade.getInstance().startup(Laya.stage);
+
+        this.layout = new BasicLayout();
+        this.appender = new ConsoleAppender();
+        this.appender.setLayout(this.layout);
+        this.config = new LoggerConfig(this.appender,LogLevel.ALL);
+        this.logger = new Logger("sango",true);
+        Logger.setConfig(this.config);
+        this.logger.error("this is an error");
+        this.logger.warn("this is a warn");
+        this.logger.log("this is a log");
+        this.logger.info("this is an info");
+        this.logger.debug("this is a debug");
+        this.logger.fatal("this is a fatal");
+        this.logger.trace("this is a trace");
     }
 
 
 }
+
 //激活启动类
 new Main();

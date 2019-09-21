@@ -76,7 +76,7 @@
     GameConfig.screenMode = "none";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "smile/Main.scene";
+    GameConfig.startScene = "smile/Load.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
@@ -174,17 +174,18 @@
             return this._i;
         }
         write(key, value, callBack) {
-            Laya.LocalStorage.setJSON(key, JSON.stringify(value));
+            console.log("smile----:" + JSON.stringify(value));
+            Laya.LocalStorage.setItem(key, JSON.stringify(value));
             if (callBack)
                 callBack();
         }
         read(key, callBack, defaultValue) {
-            let value = Laya.LocalStorage.getJSON(key);
+            let value = Laya.LocalStorage.getItem(key);
             if (callBack) {
-                callBack(value || defaultValue, key);
+                callBack(JSON.parse(value) || defaultValue, key);
             }
             else {
-                return value || defaultValue;
+                return JSON.parse(value) || defaultValue;
             }
         }
         clearByKey(key) {
@@ -694,7 +695,6 @@
         }
         completed(value, key) {
             this.data.count--;
-            console.log(`completed---key:${key}`);
             switch (key) {
                 case StorageType.USER:
                     Helper.i.assignObject(GameData.i.user, value);
@@ -945,9 +945,7 @@
                 let subpackages = LoadHelper.i.parseSources(ResConfig.options.appConfig.subpackages);
                 resources = resources.concat(subpackages);
             }
-            console.log("smile----resources:" + JSON.stringify(resources));
             Laya.loader.load(resources, Handler.create(this, (sucess) => {
-                console.log("smile------resources:" + JSON.stringify(sucess));
                 if (sucess) {
                     if (Browser$3.onMiniGame) {
                         window.platform.i.menuShareMessage();
@@ -1450,6 +1448,11 @@
         }
     }
 
+    var Logger = log4ts.Logger;
+    var LoggerConfig = log4ts.LoggerConfig;
+    var BasicLayout = log4ts.BasicLayout;
+    var ConsoleAppender = log4ts.ConsoleAppender;
+    var LogLevel = log4ts.LogLevel;
     class Main {
         constructor() {
             if (window["Laya3D"])
@@ -1481,6 +1484,19 @@
             window.platform = new Platform();
             window.platform.platformConfig();
             ApplicationFacade.getInstance().startup(Laya.stage);
+            this.layout = new BasicLayout();
+            this.appender = new ConsoleAppender();
+            this.appender.setLayout(this.layout);
+            this.config = new LoggerConfig(this.appender, LogLevel.ALL);
+            this.logger = new Logger("sango", true);
+            Logger.setConfig(this.config);
+            this.logger.error("this is an error");
+            this.logger.warn("this is a warn");
+            this.logger.log("this is a log");
+            this.logger.info("this is an info");
+            this.logger.debug("this is a debug");
+            this.logger.fatal("this is a fatal");
+            this.logger.trace("this is a trace");
         }
     }
     new Main();

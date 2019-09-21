@@ -42,9 +42,8 @@ export default class LoadingView extends LoadUI {
             let subpackages: Array<any> = LoadHelper.i.parseSources(ResConfig.options.appConfig.subpackages);
             resources = resources.concat(subpackages);
         }
-        console.log("smile----resources:" + JSON.stringify(resources));
         Laya.loader.load(resources, Handler.create(this, (sucess) => {
-            console.log("smile------resources:" + JSON.stringify(sucess));
+            // console.log("smile------resources:" + JSON.stringify(sucess));
             if (sucess) {
                 if (Browser.onMiniGame) {
                     window.platform.i.menuShareMessage();

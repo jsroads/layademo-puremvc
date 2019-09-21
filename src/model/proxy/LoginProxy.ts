@@ -46,7 +46,7 @@ export default class LoginProxy extends BaseProxy {
 
     completed(value, key) {
         this.data.count--;
-        console.log(`completed---key:${key}`);
+        // console.log(`completed---key:${key}`);
         switch (key) {
             case StorageType.USER:
                 Helper.i.assignObject(GameData.i.user, value);
