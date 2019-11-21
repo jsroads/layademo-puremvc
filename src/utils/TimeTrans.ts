@@ -6,7 +6,7 @@ import Browser = Laya.Browser;
 
 const oneDayTimeStamp = 1 * 24 * 60 * 60 * 1000;
 const cnMonthWords = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
-
+const BEI_JING:number = 8 * 60 * 60 * 1000;//东八区 北京
 /**
  * 转换帮助
  */
@@ -264,9 +264,18 @@ export default class TimeTrans {
 
     //判断两个时间戳是否是同一周
     timeStampIsSameWeek(timeStamp1, timeStamp2) {
-        let old_count = Math.floor(timeStamp1 / oneDayTimeStamp);
-        let now_other = Math.floor(timeStamp2 / oneDayTimeStamp);
-        return Math.floor((old_count + 4) / 7) == Math.floor((now_other + 4) / 7);
+        //因为1970年1月1 是周4   所以（天数+4）/7 取整 就是周数 但 北京是东八区
+        // 这个是按照 周日是 第一天算的 所以 （天数+4）/7 -->（天数+3）/7
+        let old_count = Math.floor((timeStamp1+BEI_JING) / oneDayTimeStamp);
+        let now_other = Math.floor((timeStamp2+BEI_JING) / oneDayTimeStamp);
+        return Math.floor((old_count + 3) / 7) == Math.floor((now_other + 3) / 7);
+        // 原来的代码
+        // var oneDayTime = 1000*60*60*24;
+        // var old_count =parseInt(old.getTime()/oneDayTime);
+        // var now_other =parseInt(now.getTime()/oneDayTime);
+        // return parseInt((old_count+4)/7) == parseInt((now_other+4)/7);
+        // 因为1970年1月1 是周4   所以（天数+4）/7 取整 就是周数  如果相同就是同一周反之就不是
+        // 经过测试,是以星期一作为每周的第一天的
     }
 
     //判断两个时间戳是否是同一月
