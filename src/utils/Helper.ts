@@ -53,7 +53,7 @@ export default class Helper {
      */
     public assignObject(ret: any, src: any,): any {
         for (var k in src) {
-            ret[k] = typeof src[k] === 'object' ? this.assignObject(src[k], ret[k] ? ret[k] : {}) : src[k]
+            ret[k] = typeof src[k] === 'object' ? this.assignObject(src[k] ? src[k] : {}, ret[k]) : src[k];
         }
         return ret
     }
