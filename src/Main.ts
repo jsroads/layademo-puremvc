@@ -46,6 +46,10 @@ class Main {
     }
 
     onConfigLoaded(): void {
+        //提前注册 滤镜的几个类
+        Laya.ClassUtils.regClass("laya.effect.ColorFilterSetter", Laya.ColorFilterSetter);
+        Laya.ClassUtils.regClass("laya.effect.GlowFilterSetter", Laya.GlowFilterSetter);
+        Laya.ClassUtils.regClass("laya.effect.BlurFilterSetter", Laya.BlurFilterSetter);
         //加载IDE指定的场景
         // GameConfig.startScene && Laya.Scene.open(GameConfig.startScene);
         //初始化平台信息

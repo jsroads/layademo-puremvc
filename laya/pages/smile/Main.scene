@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":4,
+    "selecteID":3,
     "searchKey":"Scene",
     "props":{"width":750,"sceneColor":"#000000","height":1334},
     "nodeParent":-1,
-    "maxID":10,
+    "maxID":14,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -101,6 +101,66 @@
             "compId":9,
             "child":[
                 ]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image",
+            "props":{"y":758,"x":321.5,"width":107,"skin":"comp/img_bg.png","height":62},
+            "nodeParent":2,
+            "label":"Image",
+            "isOpen":null,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":10,
+            "child":[
+                {
+                    "type":"BlurFilterSetter",
+                    "switchAble":true,
+                    "searchKey":"BlurFilterSetter",
+                    "removeAble":true,
+                    "props":{"strength":4},
+                    "nodeParent":10,
+                    "label":"BlurFilterSetter",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":11,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"ColorFilterSetter",
+                    "switchAble":true,
+                    "searchKey":"ColorFilterSetter",
+                    "removeAble":true,
+                    "props":{"saturation":-5,"hue":113,"contrast":"0","color":"#000000","brightness":"0","alpha":"0"},
+                    "nodeParent":10,
+                    "label":"ColorFilterSetter",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":12,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"GlowFilterSetter",
+                    "switchAble":true,
+                    "searchKey":"GlowFilterSetter",
+                    "removeAble":true,
+                    "props":{"offY":6,"offX":6,"color":"#cd3606","blur":"4"},
+                    "nodeParent":10,
+                    "label":"GlowFilterSetter",
+                    "isDirectory":false,
+                    "isClose":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":13,
+                    "child":[
+                        ]
+                }]
         }],
     "animations":[
         {

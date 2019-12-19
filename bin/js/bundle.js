@@ -64,7 +64,8 @@
     }
 
     class GameConfig {
-        constructor() { }
+        constructor() {
+        }
         static init() {
             var reg = Laya.ClassUtils.regClass;
             reg("utils/ContentAdapter.ts", ContentAdapter);
@@ -76,7 +77,7 @@
     GameConfig.screenMode = "none";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "smile/Load.scene";
+    GameConfig.startScene = "smile/Main.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
@@ -423,7 +424,7 @@
         }
         assignObject(ret, src) {
             for (var k in src) {
-                ret[k] = typeof src[k] === 'object' ? this.assignObject(src[k], ret[k] ? ret[k] : {}) : src[k];
+                ret[k] = typeof src[k] === 'object' ? this.assignObject(src[k] ? src[k] : {}, ret[k]) : src[k];
             }
             return ret;
         }
@@ -450,6 +451,7 @@
     var Browser$1 = Laya.Browser;
     const oneDayTimeStamp = 1 * 24 * 60 * 60 * 1000;
     const cnMonthWords = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
+    const BEI_JING = 8 * 60 * 60 * 1000;
     class TimeTrans$1 {
         static get i() {
             if (!this._i)
@@ -624,9 +626,9 @@
             return result + 1;
         }
         timeStampIsSameWeek(timeStamp1, timeStamp2) {
-            let old_count = Math.floor(timeStamp1 / oneDayTimeStamp);
-            let now_other = Math.floor(timeStamp2 / oneDayTimeStamp);
-            return Math.floor((old_count + 4) / 7) == Math.floor((now_other + 4) / 7);
+            let old_count = Math.floor((timeStamp1 + BEI_JING) / oneDayTimeStamp);
+            let now_other = Math.floor((timeStamp2 + BEI_JING) / oneDayTimeStamp);
+            return Math.floor((old_count + 3) / 7) == Math.floor((now_other + 3) / 7);
         }
         timeStampIsSameMonth(timeStamp1, timeStamp2) {
             let date1 = new Date(timeStamp1);
@@ -1481,6 +1483,9 @@
             Laya.AtlasInfoManager.enable("fileconfig.json", Laya.Handler.create(this, this.onConfigLoaded));
         }
         onConfigLoaded() {
+            Laya.ClassUtils.regClass("laya.effect.ColorFilterSetter", Laya.ColorFilterSetter);
+            Laya.ClassUtils.regClass("laya.effect.GlowFilterSetter", Laya.GlowFilterSetter);
+            Laya.ClassUtils.regClass("laya.effect.BlurFilterSetter", Laya.BlurFilterSetter);
             window.platform = new Platform();
             window.platform.platformConfig();
             ApplicationFacade.getInstance().startup(Laya.stage);
@@ -1502,4 +1507,3 @@
     new Main();
 
 }());
-//# sourceMappingURL=bundle.js.map
