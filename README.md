@@ -229,3 +229,7 @@ Layabox2.x 集成 PureMVC框架 以及常用类库
 └── tsconfig.json
 ```
 
+### 更新日志：
+
+- 2019年12月20日  
+  - 更新引擎到 Layabox 2.4.0bata
