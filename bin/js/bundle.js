@@ -72,12 +72,12 @@
         }
     }
     GameConfig.width = 750;
-    GameConfig.height = 1334;
+    GameConfig.height = 1134;
     GameConfig.scaleMode = "fixedwidth";
     GameConfig.screenMode = "none";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "smile/Main.scene";
+    GameConfig.startScene = "smile/Load.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
@@ -335,7 +335,6 @@
         }
     }
 
-    var Browser = Laya.Browser;
     class GameData {
         constructor() {
             this._user = new UserVO();
@@ -362,30 +361,10 @@
             return this._serverList;
         }
         init(callBack) {
-            GameLocalStorage.ins.getDataByKey(GameLocalStorage.USER, (usr) => {
-                if (usr) {
-                    SMHelper.ins.assignObject(this.user, usr);
-                }
-                GameData.ins.user.init();
-                if (callBack)
-                    callBack();
-                let isSameDay = true;
-                if (GameData.ins.user.loginDays) {
-                    isSameDay = TimeTrans.ins.timeStampIsSameDay(GameData.ins.user.loginTimeStamp, Browser.now());
-                    if (!isSameDay)
-                        this.updateNewDays();
-                }
-                else {
-                    this.updateNewDays();
-                }
-            });
         }
         dayDataUpdate() {
         }
         updateNewDays() {
-            GameData.ins.user.loginDays++;
-            GameData.ins.user.loginTimeStamp = TimeTrans.ins.getTodayMinTimeStamp();
-            GameData.ins.dayDataUpdate();
         }
     }
 
@@ -448,14 +427,14 @@
         }
     }
 
-    var Browser$1 = Laya.Browser;
+    var Browser = Laya.Browser;
     const oneDayTimeStamp = 1 * 24 * 60 * 60 * 1000;
     const cnMonthWords = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
     const BEI_JING = 8 * 60 * 60 * 1000;
-    class TimeTrans$1 {
+    class TimeTrans {
         static get i() {
             if (!this._i)
-                this._i = new TimeTrans$1();
+                this._i = new TimeTrans();
             return this._i;
         }
         getDateByTimeStamp(timeStamp) {
@@ -489,16 +468,16 @@
             return `${dateStr.split('-')[0]}年${dateStr.split('-')[1]}月`;
         }
         getTodayMinTimeStamp() {
-            return this.getMinTimeStampByTimeStamp(Browser$1.now());
+            return this.getMinTimeStampByTimeStamp(Browser.now());
         }
         getTodayMaxTimeStamp() {
-            return this.getMaxTimeStampByTimeStamp(Browser$1.now());
+            return this.getMaxTimeStampByTimeStamp(Browser.now());
         }
         getYesterdayMinTimeStamp() {
-            return this.getMinTimeStampByTimeStamp(Browser$1.now()) - oneDayTimeStamp;
+            return this.getMinTimeStampByTimeStamp(Browser.now()) - oneDayTimeStamp;
         }
         getYesterdayMaxTimeStamp() {
-            return this.getMaxTimeStampByTimeStamp(Browser$1.now()) - oneDayTimeStamp;
+            return this.getMaxTimeStampByTimeStamp(Browser.now()) - oneDayTimeStamp;
         }
         getMinTimeStampByTimeStamp(timeStamp) {
             let nowDate = new Date(timeStamp);
@@ -517,10 +496,10 @@
             return maxTime;
         }
         getCurrentWeekMinTimeStamp() {
-            return this.getWeekMinTimeStampByTimeStamp(Browser$1.now());
+            return this.getWeekMinTimeStampByTimeStamp(Browser.now());
         }
         getCurrentWeekMaxTimeStamp() {
-            return this.getWeekMaxTimeStampByTimeStamp(Browser$1.now());
+            return this.getWeekMaxTimeStampByTimeStamp(Browser.now());
         }
         getWeekMinTimeStampByTimeStamp(timeStamp) {
             let minTime = this.getMinTimeStampByTimeStamp(timeStamp);
@@ -541,10 +520,10 @@
             return maxTime + (7 - dayOfWeek) * oneDayTimeStamp;
         }
         getCurrentMonthMinTimeStamp() {
-            return this.getMonthMinTimeStampByTimeStamp(Browser$1.now());
+            return this.getMonthMinTimeStampByTimeStamp(Browser.now());
         }
         getCurrentMonthMaxTimeStamp() {
-            return this.getMonthMaxTimeStampByTimeStamp(Browser$1.now());
+            return this.getMonthMaxTimeStampByTimeStamp(Browser.now());
         }
         getMonthMinTimeStampByTimeStamp(timeStamp) {
             let date = new Date(timeStamp);
@@ -596,13 +575,13 @@
             return timeStamp + (oneDayTimeStamp * addDayCount);
         }
         getCurrentDateWeekCountInYear() {
-            return this.getWeekCountInYearByTimeStamp(Browser$1.now());
+            return this.getWeekCountInYearByTimeStamp(Browser.now());
         }
         getCurrentDateMonthCountInYear() {
-            return this.getMonthCountInYearByTimeStamp(Browser$1.now());
+            return this.getMonthCountInYearByTimeStamp(Browser.now());
         }
         getCurrentDateMonthCNNameInYear() {
-            return `${cnMonthWords[this.getMonthCountInYearByTimeStamp(Browser$1.now())]}月`;
+            return `${cnMonthWords[this.getMonthCountInYearByTimeStamp(Browser.now())]}月`;
         }
         getMonthCNNameInYearByTimeStamp(timeStamp) {
             return `${cnMonthWords[this.getMonthCountInYearByTimeStamp(timeStamp)]}月`;
@@ -664,21 +643,21 @@
             let h = date.getHours() < 10 ? '0' + date.getHours() + hourSign : date.getHours() + hourSign;
             let m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
             let s = date.getSeconds() < 10 ? '0' + date.getSeconds() + secondSign : date.getSeconds() + secondSign;
-            if (date.getFullYear() == new Date(Browser$1.now()).getFullYear()) {
+            if (date.getFullYear() == new Date(Browser.now()).getFullYear()) {
                 return M + D + h + m;
             }
             return Y + M + D + h + m;
         }
     }
 
-    var Browser$2 = Laya.Browser;
+    var Browser$1 = Laya.Browser;
     class LoginProxy extends BaseProxy {
         constructor(proxyName, data) {
             super(LoginProxy.NAME, {});
             this.data.count = 0;
         }
         login(message) {
-            if (Browser$2.onMiniGame) {
+            if (Browser$1.onMiniGame) {
                 window.platform.i.login((res) => {
                     this.loginServer(res.code);
                 });
@@ -688,7 +667,12 @@
             }
         }
         loginServer(code) {
-            {
+            let hasServer = false;
+            if (hasServer) {
+                this.send({ url: "/xxx/xxx", code: code }, () => {
+                });
+            }
+            else {
                 this.data.count = GameData.i.serverList.length;
                 GameData.i.serverList.forEach(((value, index, array) => {
                     MyLocalStorage.i.read(value.type, this.completed.bind(this));
@@ -702,7 +686,7 @@
                     Helper.i.assignObject(GameData.i.user, value);
                     let isSameDay = true;
                     if (GameData.i.user.loginDays) {
-                        isSameDay = TimeTrans$1.i.timeStampIsSameDay(GameData.i.user.loginTimeStamp, Browser$2.now());
+                        isSameDay = TimeTrans.i.timeStampIsSameDay(GameData.i.user.loginTimeStamp, Browser$1.now());
                         if (!isSameDay)
                             this.updateEveryDay();
                     }
@@ -916,7 +900,7 @@
 
     var Event = Laya.Event;
     var Handler = Laya.Handler;
-    var Browser$3 = Laya.Browser;
+    var Browser$2 = Laya.Browser;
     var Tween$1 = Laya.Tween;
     var LoadUI = ui.smile.LoadUI;
     class LoadingView extends LoadUI {
@@ -943,13 +927,13 @@
             resources.push("img_empty.png");
             resources = resources.concat(LoadHelper.i.parseSources(assets));
             this.versionText.text = ResConfig.options.appConfig.gameOptions.version;
-            if (!Browser$3.onMiniGame) {
+            if (!Browser$2.onMiniGame) {
                 let subpackages = LoadHelper.i.parseSources(ResConfig.options.appConfig.subpackages);
                 resources = resources.concat(subpackages);
             }
             Laya.loader.load(resources, Handler.create(this, (sucess) => {
                 if (sucess) {
-                    if (Browser$3.onMiniGame) {
+                    if (Browser$2.onMiniGame) {
                         window.platform.i.menuShareMessage();
                         console.log("smile------开放域:" + JSON.stringify("发送数据"));
                         Laya.MiniAdpter.sendAtlasToOpenDataContext("res/atlas/rank.atlas");
@@ -966,7 +950,7 @@
         }
         changeValue(progress) {
             if (this.bar && this.bar.value >= 1) {
-                if (!Browser$3.onMiniGame) {
+                if (!Browser$2.onMiniGame) {
                     this.bar.value = 1;
                     this.bar.changeHandler.clear();
                     this.event(LoadingView.LOAD_COMPLETE);
@@ -981,7 +965,7 @@
             }
         }
         loadSubpackages() {
-            let packages = ResConfig.options.appConfig.subpackages;
+            let packages = ResConfig.options.appConfig.subpackages, count = 0;
             if (!packages.length) {
                 console.log("smile------:" + JSON.stringify("分包已经加载成功"));
                 this.bar.changeHandler.clear();
@@ -1137,7 +1121,7 @@
     SystemInstance.UPDATE_RED_POINT = "UPDATE_RED_POINT";
 
     var Mediator$1 = puremvc.Mediator;
-    var Browser$4 = Laya.Browser;
+    var Browser$3 = Laya.Browser;
     class SystemMediator extends Mediator$1 {
         constructor(mediatorName, viewComponent) {
             super(SystemMediator.NAME, new SystemInstance());
@@ -1175,7 +1159,7 @@
         heartStart() {
             const HEART_INTERVAL = 60 * 1000;
             Laya.timer.loop(HEART_INTERVAL, this, () => {
-                GameData.i.user.offLineTimeStamp = Browser$4.now();
+                GameData.i.user.offLineTimeStamp = Browser$3.now();
             });
         }
         changeNetWork() {
@@ -1184,7 +1168,7 @@
     SystemMediator.NAME = "SystemMediator";
 
     var Mediator$2 = puremvc.Mediator;
-    var Browser$5 = Laya.Browser;
+    var Browser$4 = Laya.Browser;
     var Handler$1 = Laya.Handler;
     var BitmapFont = Laya.BitmapFont;
     class AppMediator extends Mediator$2 {
@@ -1261,7 +1245,7 @@
                 ResConfig.options.resConfig = resConfig;
                 let info = ResConfig.options.appConfig.gameOptions;
                 let paths = [info.basePath, info.name, info.platform, info.version];
-                if (Browser$5.onMiniGame) {
+                if (Browser$4.onMiniGame) {
                     Laya.URL.basePath = paths.join("/") + "/";
                 }
                 this.sendNotification(AppConstants.LOGIN, { appId: info.appId });
@@ -1337,7 +1321,7 @@
         }
     }
 
-    var Browser$6 = Laya.Browser;
+    var Browser$5 = Laya.Browser;
     class WxSDK extends BaseSDK {
         constructor() {
             super();
@@ -1373,7 +1357,7 @@
             return this._shareList;
         }
         menuShareMessage() {
-            if (!Browser$6.onMiniGame)
+            if (!Browser$5.onMiniGame)
                 return;
             window.platform.i.onShareAppMessage(() => {
                 let msg = this.getMessage();
@@ -1435,10 +1419,10 @@
         }
     }
 
-    var Browser$7 = Laya.Browser;
+    var Browser$6 = Laya.Browser;
     class Platform {
         platformConfig() {
-            let PLATFORM_NAME = Browser$7.onMiniGame ? "wx" : "web";
+            let PLATFORM_NAME = Browser$6.onMiniGame ? "wx" : "web";
             switch (PLATFORM_NAME) {
                 case "wx":
                     window.platform.i = new WxSDK();
@@ -1502,8 +1486,10 @@
             this.logger.debug("this is a debug");
             this.logger.fatal("this is a fatal");
             this.logger.trace("this is a trace");
+            console.log("smile----:", JSON.stringify("Hello @@@@@@@@"));
         }
     }
     new Main();
 
 }());
+//# sourceMappingURL=bundle.js.map

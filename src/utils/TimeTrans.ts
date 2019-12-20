@@ -6,7 +6,7 @@ import Browser = Laya.Browser;
 
 const oneDayTimeStamp = 1 * 24 * 60 * 60 * 1000;
 const cnMonthWords = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
-const BEI_JING:number = 8 * 60 * 60 * 1000;//东八区 北京
+const BEI_JING: number = 8 * 60 * 60 * 1000;//东八区 北京
 /**
  * 转换帮助
  */
@@ -266,8 +266,8 @@ export default class TimeTrans {
     timeStampIsSameWeek(timeStamp1, timeStamp2) {
         //因为1970年1月1 是周4   所以（天数+4）/7 取整 就是周数 但 北京是东八区
         // 这个是按照 周日是 第一天算的 所以 （天数+4）/7 -->（天数+3）/7
-        let old_count = Math.floor((timeStamp1+BEI_JING) / oneDayTimeStamp);
-        let now_other = Math.floor((timeStamp2+BEI_JING) / oneDayTimeStamp);
+        let old_count = Math.floor((timeStamp1 + BEI_JING) / oneDayTimeStamp);
+        let now_other = Math.floor((timeStamp2 + BEI_JING) / oneDayTimeStamp);
         return Math.floor((old_count + 3) / 7) == Math.floor((now_other + 3) / 7);
         // 原来的代码
         // var oneDayTime = 1000*60*60*24;

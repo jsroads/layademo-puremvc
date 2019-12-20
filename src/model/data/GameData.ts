@@ -4,7 +4,7 @@
  */
 import UserVO from "../vo/UserVO";
 import {StorageType} from "./GameConstans";
-import Browser = Laya.Browser;
+import TimeTrans from "../../utils/TimeTrans";
 
 export default class GameData {
     private _frineds: any[];
@@ -46,21 +46,21 @@ export default class GameData {
 
     init(callBack) {
 
-        GameLocalStorage.ins.getDataByKey(GameLocalStorage.USER, (usr) => {
-            if (usr) {
-                SMHelper.ins.assignObject(this.user, usr);
-            }
-            GameData.ins.user.init();
-            if (callBack) callBack();
-            let isSameDay = true;
-            if (GameData.ins.user.loginDays) {
-                isSameDay = TimeTrans.ins.timeStampIsSameDay(GameData.ins.user.loginTimeStamp, Browser.now());
-                if (!isSameDay) this.updateNewDays();
-            } else {
-                this.updateNewDays();
-            }
-            SystemDa
-        });
+        // GameLocalStorage.ins.getDataByKey(GameLocalStorage.USER, (usr) => {
+        //     if (usr) {
+        //         SMHelper.ins.assignObject(this.user, usr);
+        //     }
+        //     GameData.ins.user.init();
+        //     if (callBack) callBack();
+        //     let isSameDay = true;
+        //     if (GameData.ins.user.loginDays) {
+        //         isSameDay = TimeTrans.ins.timeStampIsSameDay(GameData.ins.user.loginTimeStamp, Browser.now());
+        //         if (!isSameDay) this.updateNewDays();
+        //     } else {
+        //         this.updateNewDays();
+        //     }
+        //     SystemDa
+        // });
     }
 
     public dayDataUpdate() {
@@ -68,8 +68,8 @@ export default class GameData {
     }
 
     private updateNewDays() {
-        GameData.ins.user.loginDays++;
-        GameData.ins.user.loginTimeStamp = TimeTrans.ins.getTodayMinTimeStamp();
-        GameData.ins.dayDataUpdate();
+        // GameData.i.user.loginDays++;
+        // GameData.i.user.loginTimeStamp = TimeTrans.i.getTodayMinTimeStamp();
+        // GameData.i.dayDataUpdate();
     }
 }

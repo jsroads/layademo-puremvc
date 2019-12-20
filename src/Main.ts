@@ -71,6 +71,7 @@ class Main {
         this.logger.debug("this is a debug");
         this.logger.fatal("this is a fatal");
         this.logger.trace("this is a trace");
+        console.log("smile----:", JSON.stringify("Hello @@@@@@@@"));
     }
 
 

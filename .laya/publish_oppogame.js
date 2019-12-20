@@ -1,4 +1,4 @@
-// v1.0.2
+// v1.3.0
 // publish 2.x 也是用这个文件，需要做兼容
 let isPublish2 = process.argv[2].includes("publish_oppogame.js") && process.argv[3].includes("--evn=publish2");
 // 获取Node插件和工作路径
@@ -22,9 +22,11 @@ const del = require(ideModuleDir + "del");
 const revCollector = require(ideModuleDir + 'gulp-rev-collector');
 let commandSuffix = ".cmd";
 
-let prevTasks = ["packfile"];
+let copyLibsTask = ["copyLibsJsFile"];
+let packfiletask = ["packfile"];
 if (isPublish2) {
-	prevTasks = "";
+	copyLibsTask = "";
+	packfiletask = ["preCreate_OPPO"];
 }
 
 let 
@@ -37,7 +39,7 @@ let
 let versionCon; // 版本管理version.json
 // 创建OPPO项目前，拷贝OPPO引擎库、修改index.js
 // 应该在publish中的，但是为了方便发布2.0及IDE 1.x，放在这里修改
-gulp.task("preCreate_OPPO", prevTasks, function() {
+gulp.task("preCreate_OPPO", copyLibsTask, function() {
 	if (isPublish2) {
 		let pubsetPath = path.join(workSpaceDir, ".laya", "pubset.json");
 		let content = fs.readFileSync(pubsetPath, "utf8");
@@ -66,7 +68,7 @@ gulp.task("preCreate_OPPO", prevTasks, function() {
 });
 
 // 新建OPPO项目-OPPO项目与其他项目不同，需要安装OPPO quickgame node_modules，并打包成.rpk文件
-gulp.task("installModules_OPPO", ["preCreate_OPPO"], function() {
+gulp.task("installModules_OPPO", packfiletask, function() {
 	// 如果不是OPPO快游戏
 	if (platform !== "oppogame") {
 		return;
@@ -82,10 +84,11 @@ gulp.task("installModules_OPPO", ["preCreate_OPPO"], function() {
 		console.log("开始安装OPPO quickgame node_modules，请耐心等待...");
 		let cmd = `npm${commandSuffix}`;
 		let args = ["install"];
-        
-        let cp = childProcess.spawn(cmd, args, {
-            cwd: toolkitPath
-        });
+        let opts = {
+			cwd: toolkitPath,
+			shell: true
+		};
+        let cp = childProcess.spawn(cmd, args, opts);
         
 		cp.stdout.on('data', (data) => {
 			console.log(`stdout: ${data}`);
@@ -261,6 +264,7 @@ gulp.task("modifyFile_OPPO", ["deleteSignFile_OPPO"], function() {
 	manifestJson.package = config.oppoInfo.package;
 	manifestJson.name = config.oppoInfo.name;
 	manifestJson.orientation = config.oppoInfo.orientation;
+	manifestJson.config.logLevel = config.oppoInfo.logLevel || "off";
 	manifestJson.versionName = config.oppoInfo.versionName;
 	manifestJson.versionCode = config.oppoInfo.versionCode;
 	manifestJson.minPlatformVersion = config.oppoInfo.minPlatformVersion;
@@ -331,7 +335,8 @@ gulp.task("buildRPK_OPPO", ["version_OPPO"], function() {
 		let cmd = path.join(toolkitPath, "lib", "bin", `quickgame${commandSuffix}`);
 		let args = [packStr, cmdStr, nobuildjs];
 		let opts = {
-			cwd: projDir
+			cwd: projDir,
+			shell: true
 		};
 		let cp = childProcess.spawn(cmd, args, opts);
 		// let cp = childProcess.spawn('npx.cmd', ['-v']);
@@ -368,7 +373,8 @@ gulp.task("pushRPK_OPPO", ["buildRPK_OPPO"], function() {
 		let sdGamesPath = config.oppoInfo.subpack ? "sdcard/subPkg" : "sdcard/games";
 		let args = ["push", `dist/${config.oppoInfo.package}${config.oppoInfo.useReleaseSign ? ".signed" : ""}.rpk`, sdGamesPath];
 		let opts = {
-			cwd: projDir
+			cwd: projDir,
+			shell: true
 		};
 		let cp = childProcess.spawn(cmd, args, opts);
 		// let cp = childProcess.spawn('npx.cmd', ['-v']);
@@ -397,7 +403,8 @@ gulp.task("pushRPK_OPPO", ["buildRPK_OPPO"], function() {
 			let cmd = "adb";
 			let args = ["push", oppoPropPath, "sdcard/"];
 			let opts = {
-				cwd: projDir
+				cwd: projDir,
+				shell: true
 			};
 			let cp = childProcess.spawn(cmd, args, opts);
 			// let cp = childProcess.spawn('npx.cmd', ['-v']);
@@ -420,7 +427,8 @@ gulp.task("pushRPK_OPPO", ["buildRPK_OPPO"], function() {
 			let cmd = "adb";
 			let args = ["shell", "am", "start", "-n", "com.nearme.instant.platform/com.oppo.autotest.main.InstantAppActivity"];
 			let opts = {
-				cwd: projDir
+				cwd: projDir,
+				shell: true
 			};
 			let cp = childProcess.spawn(cmd, args, opts);
 			// let cp = childProcess.spawn('npx.cmd', ['-v']);

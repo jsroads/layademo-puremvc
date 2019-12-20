@@ -9,9 +9,9 @@ import AppScreen from "./AppScreen";
 export default class ContentAdapter extends Script {
     /** @prop {name:top,tips:"上边界预留",type:Number,default:0}*/
     top: number = 0;
-    /** @prop {name:top,tips:"下边界预留",type:Number,default:0}*/
+    /** @prop {name:bottom,tips:"下边界预留",type:Number,default:0}*/
     bottom: number = 0;
-    /** @prop {name:top,tips:"左边界预留",type:Number,default:0}*/
+    /** @prop {name:left,tips:"左边界预留",type:Number,default:0}*/
     left: number = 0;
     /** @prop {name:right,tips:"右边界预留",type:Number,default:0}*/
     right: number = 0;
