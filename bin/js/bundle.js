@@ -72,12 +72,12 @@
         }
     }
     GameConfig.width = 750;
-    GameConfig.height = 1134;
+    GameConfig.height = 1334;
     GameConfig.scaleMode = "fixedwidth";
     GameConfig.screenMode = "none";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "smile/Load.scene";
+    GameConfig.startScene = "smile/Main.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
@@ -1487,6 +1487,7 @@
             this.logger.fatal("this is a fatal");
             this.logger.trace("this is a trace");
             console.log("smile----:", JSON.stringify("Hello @@@@@@@@"));
+            console.log("smile----:", JSON.stringify("Hello @@cds"));
         }
     }
     new Main();

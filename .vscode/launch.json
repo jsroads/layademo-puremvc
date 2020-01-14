@@ -12,7 +12,6 @@
 			// "runtimeExecutable": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
 			"runtimeArgs": [
 				"--allow-file-access-from-files",
-				"--allow-file-access-frome-files",
 				" --disable-web-security"
 			],
 			"sourceMaps": true,

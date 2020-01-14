@@ -72,6 +72,7 @@ class Main {
         this.logger.fatal("this is a fatal");
         this.logger.trace("this is a trace");
         console.log("smile----:", JSON.stringify("Hello @@@@@@@@"));
+        console.log("smile----:", JSON.stringify("Hello @@cds"));
     }
 
 

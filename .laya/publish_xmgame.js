@@ -1,4 +1,4 @@
-// v1.3.0
+// v1.4.0
 // publish 2.x 也是用这个文件，需要做兼容
 let isPublish2 = process.argv[2].includes("publish_xmgame.js") && process.argv[3].includes("--evn=publish2");
 // 获取Node插件和工作路径
@@ -38,6 +38,10 @@ let
 let IDEXMProjPath,
 	isUpdateIDEXMProj = false;
 let versionCon; // 版本管理version.json
+let layarepublicPath = path.join(ideModuleDir, "../", "code", "layarepublic");
+if (!fs.existsSync(layarepublicPath)) {
+	layarepublicPath = path.join(ideModuleDir, "../", "out", "layarepublic");
+}
 // 创建小米项目前，拷贝小米引擎库、修改index.js
 // 应该在publish中的，但是为了方便发布2.0及IDE 1.x，放在这里修改
 gulp.task("preCreate_XM", copyLibsTask, function() {
@@ -72,7 +76,7 @@ gulp.task("copyPlatformFile_XM", ["preCreate_XM"], function() {
 	if (platform !== "xmgame") {
 		return;
 	}
-	let xmAdapterPath = path.join(ideModuleDir, "../", "out", "layarepublic", "LayaAirProjectPack", "lib", "data", "xmfiles");
+	let xmAdapterPath = path.join(layarepublicPath, "LayaAirProjectPack", "lib", "data", "xmfiles");
 	let copyLibsList = [`${xmAdapterPath}/**/*.*`];
 	var stream = gulp.src(copyLibsList);
 	return stream.pipe(gulp.dest(tempReleaseDir));
@@ -87,7 +91,7 @@ gulp.task("checkIDEProj_XM", packfiletask, function() {
 	if (!ideModuleDir) {
 		return;
 	}
-	IDEXMProjPath = path.join(ideModuleDir, "../", "out", "layarepublic", "xm");
+	IDEXMProjPath = path.join(layarepublicPath, "xm");
 	if (process.platform === "darwin") {
 		return;
 	}
@@ -130,21 +134,21 @@ gulp.task("checkIDEProj_XM", packfiletask, function() {
 		});
 		setTimeout(() => {
 			if (!isGetLocal || !isGetRemote) {
-				console.log("获取远程版本号或本地版本号失败");
+				console.log("Failed to get the remote or local version number");
 				reject();
 				return;
 			}
 		}, 10000);
 	}).then(() => { // 比较两个版本号
 		if (!remoteVersion || !localVersion) {
-			console.log("获取远程版本号或本地版本号失败!");
+			console.log("Failed to get the remote or local version number!");
 		}
 		console.log("quickgame-cli -> ", localVersion, "|", remoteVersion);
 		if (remoteVersion.trim() !== localVersion.trim()) { // 仅当两个版本号都获取到并且不相等，置为需要更新(true)
 			isUpdateIDEXMProj = true;
 		}
 	}).catch((e) => {
-		console.log("获取远程版本号或本地版本号失败 -> ", remoteVersion, "|", localVersion);
+		console.log("Failed to get the remote or local version number -> ", remoteVersion, "|", localVersion);
 		console.log(e);
 	});
 });
@@ -412,6 +416,11 @@ gulp.task("modifyFile_XM", ["deleteSignFile_XM"], function() {
 	manifestJson.versionCode = config.xmInfo.versionCode;
 	manifestJson.minPlatformVersion = config.xmInfo.minPlatformVersion;
 	manifestJson.icon = `/layaicon/${path.basename(config.xmInfo.icon)}`;
+	if (config.xmInfo.subpack) { // 分包
+		manifestJson.subpackages = config.xmSubpack;
+	} else {
+		delete manifestJson.subpackages;
+	}
 	fs.writeFileSync(manifestPath, JSON.stringify(manifestJson, null, 4), "utf8");
 
 	if (config.version) {

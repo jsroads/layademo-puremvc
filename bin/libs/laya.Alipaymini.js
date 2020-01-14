@@ -1,10 +1,10 @@
-window.wxMiniGame = function (exports, Laya) {
+window.aliPayMiniGame = function (exports, Laya) {
 	'use strict';
 
 	class MiniFileMgr {
 	    static isLocalNativeFile(url) {
-	        for (var i = 0, sz = MiniAdpter.nativefiles.length; i < sz; i++) {
-	            if (url.indexOf(MiniAdpter.nativefiles[i]) != -1)
+	        for (var i = 0, sz = ALIMiniAdapter.nativefiles.length; i < sz; i++) {
+	            if (url.indexOf(ALIMiniAdapter.nativefiles[i]) != -1)
 	                return true;
 	        }
 	        return false;
@@ -38,8 +38,11 @@ window.wxMiniGame = function (exports, Laya) {
 	    }
 	    static downFiles(fileUrl, encoding = "utf8", callBack = null, readyUrl = "", isSaveFile = false, fileType = "", isAutoClear = true) {
 	        var downloadTask = MiniFileMgr.wxdown({ url: fileUrl, success: function (data) {
+	                if (!data.hasOwnProperty("statusCode")) {
+	                    data.statusCode = 200;
+	                }
 	                if (data.statusCode === 200)
-	                    MiniFileMgr.readFile(data.tempFilePath, encoding, callBack, readyUrl, isSaveFile, fileType, isAutoClear);
+	                    MiniFileMgr.readFile(data.apFilePath, encoding, callBack, readyUrl, isSaveFile, fileType, isAutoClear);
 	                else if (data.statusCode === 403) {
 	                    callBack != null && callBack.runWith([0, fileUrl]);
 	                }
@@ -56,16 +59,17 @@ window.wxMiniGame = function (exports, Laya) {
 	    static readFile(filePath, encoding = "utf8", callBack = null, readyUrl = "", isSaveFile = false, fileType = "", isAutoClear = true) {
 	        filePath = Laya.URL.getAdptedFilePath(filePath);
 	        MiniFileMgr.fs.readFile({ filePath: filePath, encoding: encoding, success: function (data) {
-	                if (filePath.indexOf("http://") != -1 || filePath.indexOf("https://") != -1) {
-	                    if (MiniAdpter.autoCacheFile || isSaveFile) {
+	                if (filePath.indexOf(ALIMiniAdapter.window.my.env.USER_DATA_PATH) && (filePath.indexOf("http://") != -1 || filePath.indexOf("https://") != -1)) {
+	                    if (ALIMiniAdapter.autoCacheFile || isSaveFile) {
 	                        callBack != null && callBack.runWith([0, data]);
 	                        MiniFileMgr.copyFile(filePath, readyUrl, null, encoding, isAutoClear);
 	                    }
 	                    else
 	                        callBack != null && callBack.runWith([0, data]);
 	                }
-	                else
+	                else {
 	                    callBack != null && callBack.runWith([0, data]);
+	                }
 	            }, fail: function (data) {
 	                if (data)
 	                    callBack != null && callBack.runWith([1, data]);
@@ -73,13 +77,15 @@ window.wxMiniGame = function (exports, Laya) {
 	    }
 	    static downOtherFiles(fileUrl, callBack = null, readyUrl = "", isSaveFile = false, isAutoClear = true) {
 	        MiniFileMgr.wxdown({ url: fileUrl, success: function (data) {
+	                if (!data.hasOwnProperty("statusCode"))
+	                    data.statusCode = 200;
 	                if (data.statusCode === 200) {
-	                    if ((MiniAdpter.autoCacheFile || isSaveFile) && readyUrl.indexOf("qlogo.cn") == -1 && readyUrl.indexOf(".php") == -1) {
-	                        callBack != null && callBack.runWith([0, data.tempFilePath]);
-	                        MiniFileMgr.copyFile(data.tempFilePath, readyUrl, null, "", isAutoClear);
+	                    if ((ALIMiniAdapter.autoCacheFile || isSaveFile) && readyUrl.indexOf("qlogo.cn") == -1 && readyUrl.indexOf(".php") == -1) {
+	                        callBack != null && callBack.runWith([0, data.apFilePath]);
+	                        MiniFileMgr.copyFile(data.apFilePath, readyUrl, null, "", isAutoClear);
 	                    }
 	                    else
-	                        callBack != null && callBack.runWith([0, data.tempFilePath]);
+	                        callBack != null && callBack.runWith([0, data.apFilePath]);
 	                }
 	                else {
 	                    callBack != null && callBack.runWith([1, data]);
@@ -89,7 +95,7 @@ window.wxMiniGame = function (exports, Laya) {
 	            } });
 	    }
 	    static downLoadFile(fileUrl, fileType = "", callBack = null, encoding = "utf8") {
-	        if (window.navigator.userAgent.indexOf('MiniGame') < 0) {
+	        if (window.navigator.userAgent.indexOf('AlipayMiniGame') < 0) {
 	            Laya.Laya.loader.load(fileUrl, callBack);
 	        }
 	        else {
@@ -115,8 +121,8 @@ window.wxMiniGame = function (exports, Laya) {
 	                    filePath: tempFilePath,
 	                    success: function (data) {
 	                        if ((isAutoClear && (fileUseSize + chaSize + data.size) >= totalSize)) {
-	                            if (data.size > MiniAdpter.minClearSize)
-	                                MiniAdpter.minClearSize = data.size;
+	                            if (data.size > ALIMiniAdapter.minClearSize)
+	                                ALIMiniAdapter.minClearSize = data.size;
 	                            MiniFileMgr.onClearCacheRes();
 	                        }
 	                        MiniFileMgr.deleteFile(tempFilePath, readyUrl, callBack, encoding, data.size);
@@ -134,8 +140,8 @@ window.wxMiniGame = function (exports, Laya) {
 	                filePath: tempFilePath,
 	                success: function (data) {
 	                    if ((isAutoClear && (fileUseSize + chaSize + data.size) >= totalSize)) {
-	                        if (data.size > MiniAdpter.minClearSize)
-	                            MiniAdpter.minClearSize = data.size;
+	                        if (data.size > ALIMiniAdapter.minClearSize)
+	                            ALIMiniAdapter.minClearSize = data.size;
 	                        MiniFileMgr.onClearCacheRes();
 	                    }
 	                    MiniFileMgr.fs.copyFile({ srcPath: tempFilePath, destPath: saveFilePath, success: function (data2) {
@@ -151,7 +157,7 @@ window.wxMiniGame = function (exports, Laya) {
 	        }
 	    }
 	    static onClearCacheRes() {
-	        var memSize = MiniAdpter.minClearSize;
+	        var memSize = ALIMiniAdapter.minClearSize;
 	        var tempFileListArr = [];
 	        for (var key in MiniFileMgr.filesListObj) {
 	            if (key != "fileUsedSize")
@@ -234,8 +240,8 @@ window.wxMiniGame = function (exports, Laya) {
 	        MiniFileMgr.fs.writeFile({ filePath: listFilesPath, encoding: 'utf8', data: filesListStr, success: function (data) {
 	            }, fail: function (data) {
 	            } });
-	        if (!MiniAdpter.isZiYu && MiniAdpter.isPosMsgYu) {
-	            MiniAdpter.window.wx.postMessage({ url: fileurlkey, data: MiniFileMgr.filesListObj[fileurlkey], isLoad: "filenative", isAdd: isAdd });
+	        if (!ALIMiniAdapter.isZiYu && ALIMiniAdapter.isPosMsgYu && ALIMiniAdapter.window.my.postMessage) {
+	            ALIMiniAdapter.window.my.postMessage({ url: fileurlkey, data: MiniFileMgr.filesListObj[fileurlkey], isLoad: "filenative", isAdd: isAdd });
 	        }
 	    }
 	    static getCacheUseSize() {
@@ -247,7 +253,7 @@ window.wxMiniGame = function (exports, Laya) {
 	        MiniFileMgr.fs.mkdir({ dirPath: dirPath, success: function (data) {
 	                callBack != null && callBack.runWith([0, { data: JSON.stringify({}) }]);
 	            }, fail: function (data) {
-	                if (data.errMsg.indexOf("file already exists") != -1)
+	                if (data.error == 10025)
 	                    MiniFileMgr.readSync(MiniFileMgr.fileListName, "utf8", callBack);
 	                else
 	                    callBack != null && callBack.runWith([1, data]);
@@ -257,19 +263,28 @@ window.wxMiniGame = function (exports, Laya) {
 	        var fileUrl = MiniFileMgr.getFileNativePath(filePath);
 	        var filesListStr;
 	        try {
-	            filesListStr = MiniFileMgr.fs.readFileSync(fileUrl, encoding);
-	            callBack != null && callBack.runWith([0, { data: filesListStr }]);
+	            MiniFileMgr.fs.readFile({
+	                filePath: fileUrl,
+	                encoding: encoding,
+	                success: function (data) {
+	                    filesListStr = data.data;
+	                    callBack != null && callBack.runWith([0, { data: filesListStr }]);
+	                },
+	                fail: function () {
+	                    callBack != null && callBack.runWith([1]);
+	                }
+	            });
 	        }
 	        catch (error) {
 	            callBack != null && callBack.runWith([1]);
 	        }
 	    }
 	    static setNativeFileDir(value) {
-	        MiniFileMgr.fileNativeDir = MiniAdpter.window.wx.env.USER_DATA_PATH + value;
+	        MiniFileMgr.fileNativeDir = ALIMiniAdapter.window.my.env.USER_DATA_PATH + value;
 	    }
 	}
-	MiniFileMgr.fs = window.wx.getFileSystemManager();
-	MiniFileMgr.wxdown = window.wx.downloadFile;
+	MiniFileMgr.fs = window.my.getFileSystemManager();
+	MiniFileMgr.wxdown = window.my.downloadFile;
 	MiniFileMgr.filesListObj = {};
 	MiniFileMgr.fakeObj = {};
 	MiniFileMgr.fileListName = "layaairfiles.txt";
@@ -385,7 +400,7 @@ window.wxMiniGame = function (exports, Laya) {
 	    }
 	    static _createSound() {
 	        MiniSound._id++;
-	        return MiniAdpter.window.wx.createInnerAudioContext();
+	        return ALIMiniAdapter.window.my.createInnerAudioContext();
 	    }
 	    load(url) {
 	        if (!MiniSound._musicAudio)
@@ -411,11 +426,11 @@ window.wxMiniGame = function (exports, Laya) {
 	            this.event(Laya.Event.COMPLETE);
 	            return;
 	        }
-	        if (MiniAdpter.autoCacheFile && MiniFileMgr.getFileInfo(url)) {
+	        if (ALIMiniAdapter.autoCacheFile && MiniFileMgr.getFileInfo(url)) {
 	            this.onDownLoadCallBack(url, 0);
 	        }
 	        else {
-	            if (!MiniAdpter.autoCacheFile) {
+	            if (!ALIMiniAdapter.autoCacheFile) {
 	                this.onDownLoadCallBack(url, 0);
 	            }
 	            else {
@@ -427,30 +442,30 @@ window.wxMiniGame = function (exports, Laya) {
 	                    if (!url) {
 	                        url = tempUrl;
 	                    }
-	                    if (MiniAdpter.subNativeFiles && MiniAdpter.subNativeheads.length == 0) {
-	                        for (var key in MiniAdpter.subNativeFiles) {
-	                            var tempArr = MiniAdpter.subNativeFiles[key];
-	                            MiniAdpter.subNativeheads = MiniAdpter.subNativeheads.concat(tempArr);
+	                    if (ALIMiniAdapter.subNativeFiles && ALIMiniAdapter.subNativeheads.length == 0) {
+	                        for (var key in ALIMiniAdapter.subNativeFiles) {
+	                            var tempArr = ALIMiniAdapter.subNativeFiles[key];
+	                            ALIMiniAdapter.subNativeheads = ALIMiniAdapter.subNativeheads.concat(tempArr);
 	                            for (var aa = 0; aa < tempArr.length; aa++) {
-	                                MiniAdpter.subMaps[tempArr[aa]] = key + "/" + tempArr[aa];
+	                                ALIMiniAdapter.subMaps[tempArr[aa]] = key + "/" + tempArr[aa];
 	                            }
 	                        }
 	                    }
-	                    if (MiniAdpter.subNativeFiles && url.indexOf("/") != -1) {
+	                    if (ALIMiniAdapter.subNativeFiles && url.indexOf("/") != -1) {
 	                        var curfileHead = url.split("/")[0] + "/";
-	                        if (curfileHead && MiniAdpter.subNativeheads.indexOf(curfileHead) != -1) {
-	                            var newfileHead = MiniAdpter.subMaps[curfileHead];
+	                        if (curfileHead && ALIMiniAdapter.subNativeheads.indexOf(curfileHead) != -1) {
+	                            var newfileHead = ALIMiniAdapter.subMaps[curfileHead];
 	                            url = url.replace(curfileHead, newfileHead);
 	                        }
 	                    }
 	                    this.onDownLoadCallBack(url, 0);
 	                }
 	                else {
-	                    if (!MiniFileMgr.isLocalNativeFile(url) && (url.indexOf("http://") == -1 && url.indexOf("https://") == -1) || (url.indexOf("http://usr/") != -1)) {
+	                    if (!MiniFileMgr.isLocalNativeFile(url) && (url.indexOf("http://") == -1 && url.indexOf("https://") == -1) || (url.indexOf(ALIMiniAdapter.window.my.env.USER_DATA_PATH) != -1)) {
 	                        this.onDownLoadCallBack(url, 0);
 	                    }
 	                    else {
-	                        MiniFileMgr.downOtherFiles(url, Laya.Handler.create(this, this.onDownLoadCallBack, [url]), url);
+	                        MiniFileMgr.downOtherFiles(encodeURI(url), Laya.Handler.create(this, this.onDownLoadCallBack, [url]), url);
 	                    }
 	                }
 	            }
@@ -459,7 +474,7 @@ window.wxMiniGame = function (exports, Laya) {
 	    onDownLoadCallBack(sourceUrl, errorCode, tempFilePath = null) {
 	        if (!errorCode) {
 	            var fileNativeUrl;
-	            if (MiniAdpter.autoCacheFile) {
+	            if (ALIMiniAdapter.autoCacheFile) {
 	                if (!tempFilePath) {
 	                    if (MiniFileMgr.isLocalNativeFile(sourceUrl)) {
 	                        var tempStr = Laya.URL.rootPath != "" ? Laya.URL.rootPath : Laya.URL._basePath;
@@ -503,7 +518,7 @@ window.wxMiniGame = function (exports, Laya) {
 	                    this._sound.src = sourceUrl;
 	                }
 	            }
-	            this._sound.onCanplay(MiniSound.bindToThis(this.onCanPlay, this));
+	            this._sound.onCanPlay(MiniSound.bindToThis(this.onCanPlay, this));
 	            this._sound.onError(MiniSound.bindToThis(this.onError, this));
 	        }
 	        else {
@@ -511,21 +526,13 @@ window.wxMiniGame = function (exports, Laya) {
 	        }
 	    }
 	    onError(error) {
-	        try {
-	            console.log("-----1---------------minisound-----id:" + MiniSound._id);
-	            console.log(error);
-	        }
-	        catch (error) {
-	            console.log("-----2---------------minisound-----id:" + MiniSound._id);
-	            console.log(error);
-	        }
 	        this.event(Laya.Event.ERROR);
 	        this._sound.offError(null);
 	    }
 	    onCanPlay() {
 	        this.loaded = true;
 	        this.event(Laya.Event.COMPLETE);
-	        this._sound.offCanplay(null);
+	        this._sound.offCanPlay(null);
 	    }
 	    static bindToThis(fun, scope) {
 	        var rst = fun;
@@ -549,13 +556,13 @@ window.wxMiniGame = function (exports, Laya) {
 	        }
 	        if (!tSound)
 	            return null;
-	        if (MiniAdpter.autoCacheFile && MiniFileMgr.getFileInfo(this.url)) {
+	        if (ALIMiniAdapter.autoCacheFile && MiniFileMgr.getFileInfo(this.url)) {
 	            var fileObj = MiniFileMgr.getFileInfo(this.url);
 	            var fileMd5Name = fileObj.md5;
 	            tSound.src = this.url = MiniFileMgr.getFileNativePath(fileMd5Name);
 	        }
 	        else {
-	            tSound.src = this.url;
+	            tSound.src = encodeURI(this.url);
 	        }
 	        var channel = new MiniSoundChannel(tSound, this);
 	        channel.url = this.url;
@@ -601,12 +608,12 @@ window.wxMiniGame = function (exports, Laya) {
 	        Laya.Input['inputContainer'].style.zIndex = 1E5;
 	        Laya.Browser.container.appendChild(Laya.Input['inputContainer']);
 	        Laya.Laya.stage.on("resize", null, MiniInput._onStageResize);
-	        MiniAdpter.window.wx.onWindowResize && MiniAdpter.window.wx.onWindowResize(function (res) {
+	        ALIMiniAdapter.window.my.onWindowResize && ALIMiniAdapter.window.my.onWindowResize(function (res) {
 	        });
 	        Laya.SoundManager._soundClass = MiniSound;
 	        Laya.SoundManager._musicClass = MiniSound;
-	        var model = MiniAdpter.systemInfo.model;
-	        var system = MiniAdpter.systemInfo.system;
+	        var model = ALIMiniAdapter.systemInfo.model;
+	        var system = ALIMiniAdapter.systemInfo.system;
 	        if (model.indexOf("iPhone") != -1) {
 	            Laya.Browser.onIPhone = true;
 	            Laya.Browser.onIOS = true;
@@ -629,12 +636,12 @@ window.wxMiniGame = function (exports, Laya) {
 	        if (_inputTarget && !_inputTarget.editable) {
 	            return;
 	        }
-	        MiniAdpter.window.wx.offKeyboardConfirm();
-	        MiniAdpter.window.wx.offKeyboardInput();
-	        MiniAdpter.window.wx.showKeyboard({ defaultValue: _inputTarget.text, maxLength: _inputTarget.maxChars, multiple: _inputTarget.multiline, confirmHold: true, confirmType: _inputTarget["confirmType"] || 'done', success: function (res) {
+	        ALIMiniAdapter.window.my.offKeyboardConfirm();
+	        ALIMiniAdapter.window.my.offKeyboardInput();
+	        ALIMiniAdapter.window.my.showKeyboard({ defaultValue: _inputTarget.text, maxLength: _inputTarget.maxChars, multiple: _inputTarget.multiline, confirmHold: true, confirmType: _inputTarget["confirmType"] || 'done', success: function (res) {
 	            }, fail: function (res) {
 	            } });
-	        MiniAdpter.window.wx.onKeyboardConfirm(function (res) {
+	        ALIMiniAdapter.window.my.onKeyboardConfirm(function (res) {
 	            var str = res ? res.value : "";
 	            if (_inputTarget._restrictPattern) {
 	                str = str.replace(/\u2006|\x27/g, "");
@@ -647,7 +654,7 @@ window.wxMiniGame = function (exports, Laya) {
 	            MiniInput.inputEnter();
 	            _inputTarget.event("confirm");
 	        });
-	        MiniAdpter.window.wx.onKeyboardInput(function (res) {
+	        ALIMiniAdapter.window.my.onKeyboardInput(function (res) {
 	            var str = res ? res.value : "";
 	            if (!_inputTarget.multiline) {
 	                if (str.indexOf("\n") != -1) {
@@ -672,9 +679,9 @@ window.wxMiniGame = function (exports, Laya) {
 	        MiniInput.hideKeyboard();
 	    }
 	    static hideKeyboard() {
-	        MiniAdpter.window.wx.offKeyboardConfirm();
-	        MiniAdpter.window.wx.offKeyboardInput();
-	        MiniAdpter.window.wx.hideKeyboard({ success: function (res) {
+	        ALIMiniAdapter.window.my.offKeyboardConfirm();
+	        ALIMiniAdapter.window.my.offKeyboardInput();
+	        ALIMiniAdapter.window.my.hideKeyboard({ success: function (res) {
 	                console.log('隐藏键盘');
 	            }, fail: function (res) {
 	                console.log("隐藏键盘出错:" + (res ? res.errMsg : ""));
@@ -688,7 +695,7 @@ window.wxMiniGame = function (exports, Laya) {
 	    }
 	    _loadResourceFilter(type, url) {
 	        var thisLoader = this;
-	        if (url.indexOf(MiniAdpter.window.wx.env.USER_DATA_PATH) == -1 && (url.indexOf("http://") != -1 || url.indexOf("https://") != -1)) {
+	        if (url.indexOf(ALIMiniAdapter.window.my.env.USER_DATA_PATH) == -1 && (url.indexOf("http://") != -1 || url.indexOf("https://") != -1)) {
 	            if (MiniFileMgr.loadPath != "") {
 	                url = url.split(MiniFileMgr.loadPath)[1];
 	            }
@@ -702,19 +709,19 @@ window.wxMiniGame = function (exports, Laya) {
 	                }
 	            }
 	        }
-	        if (MiniAdpter.subNativeFiles && MiniAdpter.subNativeheads.length == 0) {
-	            for (var key in MiniAdpter.subNativeFiles) {
-	                var tempArr = MiniAdpter.subNativeFiles[key];
-	                MiniAdpter.subNativeheads = MiniAdpter.subNativeheads.concat(tempArr);
+	        if (ALIMiniAdapter.subNativeFiles && ALIMiniAdapter.subNativeheads.length == 0) {
+	            for (var key in ALIMiniAdapter.subNativeFiles) {
+	                var tempArr = ALIMiniAdapter.subNativeFiles[key];
+	                ALIMiniAdapter.subNativeheads = ALIMiniAdapter.subNativeheads.concat(tempArr);
 	                for (var aa = 0; aa < tempArr.length; aa++) {
-	                    MiniAdpter.subMaps[tempArr[aa]] = key + "/" + tempArr[aa];
+	                    ALIMiniAdapter.subMaps[tempArr[aa]] = key + "/" + tempArr[aa];
 	                }
 	            }
 	        }
-	        if (MiniAdpter.subNativeFiles && url.indexOf("/") != -1) {
+	        if (ALIMiniAdapter.subNativeFiles && url.indexOf("/") != -1) {
 	            var curfileHead = url.split("/")[0] + "/";
-	            if (curfileHead && MiniAdpter.subNativeheads.indexOf(curfileHead) != -1) {
-	                var newfileHead = MiniAdpter.subMaps[curfileHead];
+	            if (curfileHead && ALIMiniAdapter.subNativeheads.indexOf(curfileHead) != -1) {
+	                var newfileHead = ALIMiniAdapter.subMaps[curfileHead];
 	                url = url.replace(curfileHead, newfileHead);
 	            }
 	        }
@@ -746,7 +753,7 @@ window.wxMiniGame = function (exports, Laya) {
 	        }
 	        else {
 	            var tempurl = Laya.URL.formatURL(url);
-	            if (!MiniFileMgr.isLocalNativeFile(url) && (tempurl.indexOf("http://") == -1 && tempurl.indexOf("https://") == -1) || (tempurl.indexOf(MiniAdpter.window.wx.env.USER_DATA_PATH) != -1)) {
+	            if (!MiniFileMgr.isLocalNativeFile(url) && (tempurl.indexOf("http://") == -1 && tempurl.indexOf("https://") == -1) || (tempurl.indexOf(ALIMiniAdapter.window.my.env.USER_DATA_PATH) != -1)) {
 	                MiniLoader.onDownLoadCallBack(url, thisLoader, 0);
 	            }
 	            else {
@@ -757,7 +764,7 @@ window.wxMiniGame = function (exports, Laya) {
 	    static onDownLoadCallBack(sourceUrl, thisLoader, errorCode, tempFilePath = null) {
 	        if (!errorCode) {
 	            var fileNativeUrl;
-	            if (MiniAdpter.autoCacheFile) {
+	            if (ALIMiniAdapter.autoCacheFile) {
 	                if (!tempFilePath) {
 	                    if (MiniFileMgr.isLocalNativeFile(sourceUrl)) {
 	                        var tempStr = Laya.URL.rootPath != "" ? Laya.URL.rootPath : Laya.URL._basePath;
@@ -799,12 +806,12 @@ window.wxMiniGame = function (exports, Laya) {
 	    }
 	    _loadHttpRequestWhat(url, contentType) {
 	        var thisLoader = this;
-	        var encoding = MiniAdpter.getUrlEncode(url, contentType);
+	        var encoding = ALIMiniAdapter.getUrlEncode(url, contentType);
 	        if (Laya.Loader.preLoadedMap[url])
 	            thisLoader.onLoaded(Laya.Loader.preLoadedMap[url]);
 	        else {
 	            var tempurl = Laya.URL.formatURL(url);
-	            if (!MiniFileMgr.isLocalNativeFile(url) && !MiniFileMgr.getFileInfo(tempurl) && url.indexOf(MiniAdpter.window.wx.env.USER_DATA_PATH) == -1 && (tempurl.indexOf("http://") != -1 || tempurl.indexOf("https://") != -1) && !MiniAdpter.AutoCacheDownFile) {
+	            if (!MiniFileMgr.isLocalNativeFile(url) && !MiniFileMgr.getFileInfo(tempurl) && url.indexOf(ALIMiniAdapter.window.my.env.USER_DATA_PATH) == -1 && (tempurl.indexOf("http://") != -1 || tempurl.indexOf("https://") != -1) && !ALIMiniAdapter.AutoCacheDownFile) {
 	                thisLoader._loadHttpRequest(tempurl, contentType, thisLoader, thisLoader.onLoaded, thisLoader, thisLoader.onProgress, thisLoader, thisLoader.onError);
 	            }
 	            else {
@@ -821,7 +828,7 @@ window.wxMiniGame = function (exports, Laya) {
 	                        MiniFileMgr.readFile(url, encoding, new Laya.Handler(MiniLoader, MiniLoader.onReadNativeCallBack, [url, contentType, thisLoader]), url);
 	                    }
 	                    else {
-	                        MiniFileMgr.downFiles(tempurl, encoding, new Laya.Handler(MiniLoader, MiniLoader.onReadNativeCallBack, [url, contentType, thisLoader]), tempurl, true);
+	                        MiniFileMgr.downFiles(encodeURI(tempurl), encoding, new Laya.Handler(MiniLoader, MiniLoader.onReadNativeCallBack, [url, contentType, thisLoader]), tempurl, true);
 	                    }
 	                }
 	            }
@@ -831,7 +838,7 @@ window.wxMiniGame = function (exports, Laya) {
 	        if (!errorCode) {
 	            var tempData;
 	            if (type == Laya.Loader.JSON || type == Laya.Loader.ATLAS || type == Laya.Loader.PREFAB || type == Laya.Loader.PLF) {
-	                tempData = MiniAdpter.getJson(data.data);
+	                tempData = ALIMiniAdapter.getJson(data.data);
 	            }
 	            else if (type == Laya.Loader.XML) {
 	                tempData = Laya.Utils.parseXMLFromString(data.data);
@@ -839,8 +846,8 @@ window.wxMiniGame = function (exports, Laya) {
 	            else {
 	                tempData = data.data;
 	            }
-	            if (!MiniAdpter.isZiYu && MiniAdpter.isPosMsgYu && type != Laya.Loader.BUFFER) {
-	                MiniAdpter.window.wx.postMessage({ url: url, data: tempData, isLoad: "filedata" });
+	            if (!ALIMiniAdapter.isZiYu && ALIMiniAdapter.isPosMsgYu && type != Laya.Loader.BUFFER && ALIMiniAdapter.window.my.postMessage) {
+	                ALIMiniAdapter.window.my.postMessage({ url: url, data: tempData, isLoad: "filedata" });
 	            }
 	            thisLoader.onLoaded(tempData);
 	        }
@@ -849,7 +856,7 @@ window.wxMiniGame = function (exports, Laya) {
 	        }
 	    }
 	    static _transformImgUrl(url, type, thisLoader) {
-	        if (MiniAdpter.isZiYu) {
+	        if (ALIMiniAdapter.isZiYu) {
 	            thisLoader._loadImage(url, false);
 	            return;
 	        }
@@ -859,12 +866,12 @@ window.wxMiniGame = function (exports, Laya) {
 	        }
 	        if (!MiniFileMgr.isLocalNativeFile(url) && !MiniFileMgr.getFileInfo(Laya.URL.formatURL(url))) {
 	            var tempUrl = Laya.URL.formatURL(url);
-	            if (url.indexOf(MiniAdpter.window.wx.env.USER_DATA_PATH) == -1 && (tempUrl.indexOf("http://") != -1 || tempUrl.indexOf("https://") != -1)) {
-	                if (MiniAdpter.isZiYu) {
+	            if (url.indexOf(ALIMiniAdapter.window.my.env.USER_DATA_PATH) == -1 && (tempUrl.indexOf("http://") != -1 || tempUrl.indexOf("https://") != -1)) {
+	                if (ALIMiniAdapter.isZiYu) {
 	                    thisLoader._loadImage(url, false);
 	                }
 	                else {
-	                    MiniFileMgr.downOtherFiles(tempUrl, new Laya.Handler(MiniLoader, MiniLoader.onDownImgCallBack, [url, thisLoader]), tempUrl);
+	                    MiniFileMgr.downOtherFiles(encodeURI(tempUrl), new Laya.Handler(MiniLoader, MiniLoader.onDownImgCallBack, [url, thisLoader]), tempUrl);
 	                }
 	            }
 	            else
@@ -883,7 +890,7 @@ window.wxMiniGame = function (exports, Laya) {
 	    }
 	    static onCreateImage(sourceUrl, thisLoader, isLocal = false, tempFilePath = "") {
 	        var fileNativeUrl;
-	        if (MiniAdpter.autoCacheFile) {
+	        if (ALIMiniAdapter.autoCacheFile) {
 	            if (!isLocal) {
 	                if (tempFilePath != "") {
 	                    fileNativeUrl = tempFilePath;
@@ -894,7 +901,7 @@ window.wxMiniGame = function (exports, Laya) {
 	                    fileNativeUrl = MiniFileMgr.getFileNativePath(fileMd5Name);
 	                }
 	            }
-	            else if (MiniAdpter.isZiYu) {
+	            else if (ALIMiniAdapter.isZiYu) {
 	                var tempUrl = Laya.URL.formatURL(sourceUrl);
 	                if (MiniFileMgr.ziyuFileTextureData[tempUrl]) {
 	                    fileNativeUrl = MiniFileMgr.ziyuFileTextureData[tempUrl];
@@ -922,34 +929,31 @@ window.wxMiniGame = function (exports, Laya) {
 	        MiniLocalStorage.items = MiniLocalStorage;
 	    }
 	    static setItem(key, value) {
-	        try {
-	            MiniAdpter.window.wx.setStorageSync(key, value);
-	        }
-	        catch (error) {
-	            MiniAdpter.window.wx.setStorage({
-	                key: key,
-	                data: value
-	            });
-	        }
+	        ALIMiniAdapter.window.my.setStorageSync({ key: key, value: value });
 	    }
 	    static getItem(key) {
-	        return MiniAdpter.window.wx.getStorageSync(key);
+	        return ALIMiniAdapter.window.my.getStorageSync({ "key": key });
 	    }
 	    static setJSON(key, value) {
-	        MiniLocalStorage.setItem(key, value);
+	        try {
+	            MiniLocalStorage.setItem(key, JSON.stringify(value));
+	        }
+	        catch (e) {
+	            console.warn("set localStorage failed", e);
+	        }
 	    }
 	    static getJSON(key) {
-	        return MiniLocalStorage.getItem(key);
+	        return JSON.parse(MiniLocalStorage.getItem(key));
 	    }
 	    static removeItem(key) {
-	        MiniAdpter.window.wx.removeStorageSync(key);
+	        ALIMiniAdapter.window.my.removeStorageSync(key);
 	    }
 	    static clear() {
-	        MiniAdpter.window.wx.clearStorageSync();
+	        ALIMiniAdapter.window.my.clearStorageSync();
 	    }
 	    static getStorageInfoSync() {
 	        try {
-	            var res = MiniAdpter.window.wx.getStorageInfoSync();
+	            var res = ALIMiniAdapter.window.my.getStorageInfoSync();
 	            console.log(res.keys);
 	            console.log(res.currentSize);
 	            console.log(res.limitSize);
@@ -962,59 +966,60 @@ window.wxMiniGame = function (exports, Laya) {
 	}
 	MiniLocalStorage.support = true;
 
-	class MiniAdpter {
+	class ALIMiniAdapter {
 	    static getJson(data) {
 	        return JSON.parse(data);
 	    }
 	    static enable() {
-	        MiniAdpter.init(Laya.Laya.isWXPosMsg, Laya.Laya.isWXOpenDataContext);
+	        ALIMiniAdapter.init(Laya.Laya.isWXPosMsg, Laya.Laya.isWXOpenDataContext);
 	    }
 	    static init(isPosMsg = false, isSon = false) {
-	        if (MiniAdpter._inited)
+	        if (ALIMiniAdapter._inited)
 	            return;
-	        MiniAdpter._inited = true;
-	        MiniAdpter.window = window;
-	        if (!MiniAdpter.window.hasOwnProperty("wx"))
+	        ALIMiniAdapter._inited = true;
+	        ALIMiniAdapter.window = window;
+	        if (!ALIMiniAdapter.window.hasOwnProperty("my"))
 	            return;
-	        if (MiniAdpter.window.navigator.userAgent.indexOf('MiniGame') < 0)
+	        if (ALIMiniAdapter.window.navigator.userAgent.indexOf('AlipayMiniGame') < 0)
 	            return;
-	        MiniAdpter.isZiYu = isSon;
-	        MiniAdpter.isPosMsgYu = isPosMsg;
-	        MiniAdpter.EnvConfig = {};
-	        if (!MiniAdpter.isZiYu) {
+	        ALIMiniAdapter.isZiYu = isSon;
+	        ALIMiniAdapter.isPosMsgYu = isPosMsg;
+	        ALIMiniAdapter.EnvConfig = {};
+	        if (!ALIMiniAdapter.isZiYu) {
 	            MiniFileMgr.setNativeFileDir("/layaairGame");
-	            MiniFileMgr.existDir(MiniFileMgr.fileNativeDir, Laya.Handler.create(MiniAdpter, MiniAdpter.onMkdirCallBack));
+	            MiniFileMgr.existDir(MiniFileMgr.fileNativeDir, Laya.Handler.create(ALIMiniAdapter, ALIMiniAdapter.onMkdirCallBack));
 	        }
-	        MiniAdpter.systemInfo = MiniAdpter.window.wx.getSystemInfoSync();
-	        MiniAdpter.window.focus = function () {
+	        ALIMiniAdapter.systemInfo = ALIMiniAdapter.window.my.getSystemInfoSync();
+	        ALIMiniAdapter.window.focus = function () {
 	        };
 	        Laya.Laya['_getUrlPath'] = function () {
 	            return "";
 	        };
-	        MiniAdpter.window.logtime = function (str) {
+	        ALIMiniAdapter.window.logtime = function (str) {
 	        };
-	        MiniAdpter.window.alertTimeLog = function (str) {
+	        ALIMiniAdapter.window.alertTimeLog = function (str) {
 	        };
-	        MiniAdpter.window.resetShareInfo = function () {
+	        ALIMiniAdapter.window.resetShareInfo = function () {
 	        };
-	        MiniAdpter.window.CanvasRenderingContext2D = function () {
+	        ALIMiniAdapter.window.CanvasRenderingContext2D = function () {
 	        };
-	        MiniAdpter.window.CanvasRenderingContext2D.prototype = MiniAdpter.window.wx.createCanvas().getContext('2d').__proto__;
-	        MiniAdpter.window.document.body.appendChild = function () {
+	        ALIMiniAdapter.window.CanvasRenderingContext2D.prototype = ALIMiniAdapter.window.my.createCanvas().getContext('2d').__proto__;
+	        ALIMiniAdapter.window.document.body.appendChild = function () {
 	        };
-	        MiniAdpter.EnvConfig.pixelRatioInt = 0;
-	        Laya.Browser["_pixelRatio"] = MiniAdpter.pixelRatio();
-	        MiniAdpter._preCreateElement = Laya.Browser.createElement;
-	        Laya.Browser["createElement"] = MiniAdpter.createElement;
-	        Laya.RunDriver.createShaderCondition = MiniAdpter.createShaderCondition;
-	        Laya.Utils['parseXMLFromString'] = MiniAdpter.parseXMLFromString;
+	        ALIMiniAdapter.EnvConfig.pixelRatioInt = 0;
+	        Laya.Browser["_pixelRatio"] = ALIMiniAdapter.pixelRatio();
+	        ALIMiniAdapter._preCreateElement = Laya.Browser.createElement;
+	        Laya.Browser["createElement"] = ALIMiniAdapter.createElement;
+	        Laya.RunDriver.createShaderCondition = ALIMiniAdapter.createShaderCondition;
+	        Laya.Utils['parseXMLFromString'] = ALIMiniAdapter.parseXMLFromString;
 	        Laya.Input['_createInputElement'] = MiniInput['_createInputElement'];
 	        Laya.Loader.prototype._loadResourceFilter = MiniLoader.prototype._loadResourceFilter;
 	        Laya.Loader.prototype._loadSound = MiniLoader.prototype._loadSound;
 	        Laya.Loader.prototype._loadHttpRequestWhat = MiniLoader.prototype._loadHttpRequestWhat;
+	        Laya.Config.useRetinalCanvas = true;
 	        Laya.LocalStorage._baseClass = MiniLocalStorage;
 	        MiniLocalStorage.__init__();
-	        MiniAdpter.window.wx.onMessage && MiniAdpter.window.wx.onMessage(MiniAdpter._onMessage);
+	        ALIMiniAdapter.window.my.onMessage && ALIMiniAdapter.window.my.onMessage(ALIMiniAdapter._onMessage);
 	    }
 	    static _onMessage(data) {
 	        switch (data.type) {
@@ -1075,7 +1080,7 @@ window.wxMiniGame = function (exports, Laya) {
 	        return MiniFileMgr.filesListObj;
 	    }
 	    static exitMiniProgram() {
-	        MiniAdpter.window["wx"].exitMiniProgram();
+	        ALIMiniAdapter.window.my.exitMiniProgram();
 	    }
 	    static onMkdirCallBack(errorCode, data) {
 	        if (!errorCode)
@@ -1083,39 +1088,39 @@ window.wxMiniGame = function (exports, Laya) {
 	        MiniFileMgr.fakeObj = MiniFileMgr.filesListObj;
 	    }
 	    static pixelRatio() {
-	        if (!MiniAdpter.EnvConfig.pixelRatioInt) {
+	        if (!ALIMiniAdapter.EnvConfig.pixelRatioInt) {
 	            try {
-	                MiniAdpter.EnvConfig.pixelRatioInt = MiniAdpter.systemInfo.pixelRatio;
-	                return MiniAdpter.systemInfo.pixelRatio;
+	                ALIMiniAdapter.EnvConfig.pixelRatioInt = ALIMiniAdapter.systemInfo.pixelRatio;
+	                return ALIMiniAdapter.systemInfo.pixelRatio;
 	            }
 	            catch (error) {
 	            }
 	        }
-	        return MiniAdpter.EnvConfig.pixelRatioInt;
+	        return ALIMiniAdapter.EnvConfig.pixelRatioInt;
 	    }
 	    static createElement(type) {
 	        if (type == "canvas") {
 	            var _source;
-	            if (MiniAdpter.idx == 1) {
-	                if (MiniAdpter.isZiYu) {
-	                    _source = MiniAdpter.window.sharedCanvas;
+	            if (ALIMiniAdapter.idx == 1) {
+	                if (ALIMiniAdapter.isZiYu) {
+	                    _source = ALIMiniAdapter.window.sharedCanvas;
 	                    _source.style = {};
 	                }
 	                else {
-	                    _source = MiniAdpter.window.canvas;
+	                    _source = ALIMiniAdapter.window.canvas;
 	                }
 	            }
 	            else {
-	                _source = MiniAdpter.window.wx.createCanvas();
+	                _source = ALIMiniAdapter.window.my.createCanvas();
 	            }
-	            MiniAdpter.idx++;
+	            ALIMiniAdapter.idx++;
 	            return _source;
 	        }
 	        else if (type == "textarea" || type == "input") {
-	            return MiniAdpter.onCreateInput(type);
+	            return ALIMiniAdapter.onCreateInput(type);
 	        }
 	        else if (type == "div") {
-	            var node = MiniAdpter._preCreateElement(type);
+	            var node = ALIMiniAdapter._preCreateElement(type);
 	            node.contains = function (value) {
 	                return null;
 	            };
@@ -1124,11 +1129,11 @@ window.wxMiniGame = function (exports, Laya) {
 	            return node;
 	        }
 	        else {
-	            return MiniAdpter._preCreateElement(type);
+	            return ALIMiniAdapter._preCreateElement(type);
 	        }
 	    }
 	    static onCreateInput(type) {
-	        var node = MiniAdpter._preCreateElement(type);
+	        var node = ALIMiniAdapter._preCreateElement(type);
 	        node.focus = MiniInput.wxinputFocus;
 	        node.blur = MiniInput.wxinputblur;
 	        node.style = {};
@@ -1158,7 +1163,7 @@ window.wxMiniGame = function (exports, Laya) {
 	        return func;
 	    }
 	    static sendAtlasToOpenDataContext(url) {
-	        if (!MiniAdpter.isZiYu) {
+	        if (!ALIMiniAdapter.isZiYu) {
 	            var atlasJson = Laya.Loader.getRes(Laya.URL.formatURL(url));
 	            if (atlasJson) {
 	                var textureArr = atlasJson.meta.image.split(",");
@@ -1176,7 +1181,7 @@ window.wxMiniGame = function (exports, Laya) {
 	                }
 	                for (i = 0; i < toloadPics.length; i++) {
 	                    var tempAtlasPngUrl = toloadPics[i];
-	                    MiniAdpter.postInfoToContext(Laya.Laya.URL.formatURL(url), Laya.Laya.URL.formatURL(tempAtlasPngUrl), atlasJson);
+	                    ALIMiniAdapter.postInfoToContext(url, tempAtlasPngUrl, atlasJson);
 	                }
 	            }
 	            else {
@@ -1196,7 +1201,7 @@ window.wxMiniGame = function (exports, Laya) {
 	            fileNativeUrl = textureUrl;
 	        }
 	        if (fileNativeUrl) {
-	            MiniAdpter.window.wx.postMessage({ url: url, atlasdata: postData, imgNativeUrl: fileNativeUrl, imgReadyUrl: textureUrl, isLoad: "opendatacontext" });
+	            ALIMiniAdapter.window.my.postMessage({ url: url, atlasdata: postData, imgNativeUrl: fileNativeUrl, imgReadyUrl: textureUrl, isLoad: "opendatacontext" });
 	        }
 	        else {
 	            throw "获取图集的磁盘url路径不存在！";
@@ -1214,19 +1219,17 @@ window.wxMiniGame = function (exports, Laya) {
 	            fileNativeUrl = url;
 	        }
 	        if (fileNativeUrl) {
-	            url = Laya.Laya.URL.formatURL(url);
-	            MiniAdpter.window.wx.postMessage({ url: url, imgNativeUrl: fileNativeUrl, imgReadyUrl: url, isLoad: "openJsondatacontextPic" });
+	            ALIMiniAdapter.window.my.postMessage({ url: url, imgNativeUrl: fileNativeUrl, imgReadyUrl: url, isLoad: "openJsondatacontextPic" });
 	        }
 	        else {
 	            throw "获取图集的磁盘url路径不存在！";
 	        }
 	    }
 	    static sendJsonDataToDataContext(url) {
-	        if (!MiniAdpter.isZiYu) {
-	            url = Laya.Laya.URL.formatURL(url);
+	        if (!ALIMiniAdapter.isZiYu) {
 	            var atlasJson = Laya.Loader.getRes(url);
 	            if (atlasJson) {
-	                MiniAdpter.window.wx.postMessage({ url: url, atlasdata: atlasJson, isLoad: "openJsondatacontext" });
+	                ALIMiniAdapter.window.my.postMessage({ url: url, atlasdata: atlasJson, isLoad: "openJsondatacontext" });
 	            }
 	            else {
 	                throw "传递的url没有获取到对应的图集数据信息，请确保图集已经过！";
@@ -1234,26 +1237,26 @@ window.wxMiniGame = function (exports, Laya) {
 	        }
 	    }
 	}
-	MiniAdpter._inited = false;
-	MiniAdpter.autoCacheFile = true;
-	MiniAdpter.minClearSize = (5 * 1024 * 1024);
-	MiniAdpter.nativefiles = ["layaNativeDir", "wxlocal"];
-	MiniAdpter.subNativeFiles = [];
-	MiniAdpter.subNativeheads = [];
-	MiniAdpter.subMaps = [];
-	MiniAdpter.AutoCacheDownFile = false;
-	MiniAdpter.parseXMLFromString = function (value) {
+	ALIMiniAdapter._inited = false;
+	ALIMiniAdapter.autoCacheFile = true;
+	ALIMiniAdapter.minClearSize = (5 * 1024 * 1024);
+	ALIMiniAdapter.nativefiles = ["layaNativeDir"];
+	ALIMiniAdapter.subNativeFiles = [];
+	ALIMiniAdapter.subNativeheads = [];
+	ALIMiniAdapter.subMaps = [];
+	ALIMiniAdapter.AutoCacheDownFile = false;
+	ALIMiniAdapter.parseXMLFromString = function (value) {
 	    var rst;
 	    value = value.replace(/>\s+</g, '><');
 	    try {
-	        rst = (new MiniAdpter.window.Parser.DOMParser()).parseFromString(value, 'text/xml');
+	        rst = (new ALIMiniAdapter.window.Parser.DOMParser()).parseFromString(value, 'text/xml');
 	    }
 	    catch (error) {
 	        throw "需要引入xml解析库文件";
 	    }
 	    return rst;
 	};
-	MiniAdpter.idx = 1;
+	ALIMiniAdapter.idx = 1;
 
 	class MiniAccelerator extends Laya.EventDispatcher {
 	    constructor() {
@@ -1277,14 +1280,14 @@ window.wxMiniGame = function (exports, Laya) {
 	            return;
 	        MiniAccelerator._isListening = true;
 	        try {
-	            MiniAdpter.window.wx.onAccelerometerChange(MiniAccelerator.onAccelerometerChange);
+	            ALIMiniAdapter.window.my.onAccelerometerChange(MiniAccelerator.onAccelerometerChange);
 	        }
 	        catch (e) { }
 	    }
 	    static stopListen() {
 	        MiniAccelerator._isListening = false;
 	        try {
-	            MiniAdpter.window.wx.stopAccelerometer({});
+	            ALIMiniAdapter.window.my.stopAccelerometer({});
 	        }
 	        catch (e) { }
 	    }
@@ -1314,7 +1317,7 @@ window.wxMiniGame = function (exports, Laya) {
 	class MiniImage {
 	    _loadImage(url) {
 	        var thisLoader = this;
-	        if (MiniAdpter.isZiYu) {
+	        if (ALIMiniAdapter.isZiYu) {
 	            MiniImage.onCreateImage(url, thisLoader, true);
 	            return;
 	        }
@@ -1324,7 +1327,7 @@ window.wxMiniGame = function (exports, Laya) {
 	            url = Laya.URL.formatURL(url);
 	        }
 	        else {
-	            if (url.indexOf(MiniAdpter.window.wx.env.USER_DATA_PATH) == -1 && (url.indexOf("http://") != -1 || url.indexOf("https://") != -1)) {
+	            if (url.indexOf("http://usr/") == -1 && (url.indexOf("http://") != -1 || url.indexOf("https://") != -1)) {
 	                if (MiniFileMgr.loadPath != "") {
 	                    url = url.split(MiniFileMgr.loadPath)[1];
 	                }
@@ -1338,30 +1341,30 @@ window.wxMiniGame = function (exports, Laya) {
 	                    }
 	                }
 	            }
-	            if (MiniAdpter.subNativeFiles && MiniAdpter.subNativeheads.length == 0) {
-	                for (var key in MiniAdpter.subNativeFiles) {
-	                    var tempArr = MiniAdpter.subNativeFiles[key];
-	                    MiniAdpter.subNativeheads = MiniAdpter.subNativeheads.concat(tempArr);
+	            if (ALIMiniAdapter.subNativeFiles && ALIMiniAdapter.subNativeheads.length == 0) {
+	                for (var key in ALIMiniAdapter.subNativeFiles) {
+	                    var tempArr = ALIMiniAdapter.subNativeFiles[key];
+	                    ALIMiniAdapter.subNativeheads = ALIMiniAdapter.subNativeheads.concat(tempArr);
 	                    for (var aa = 0; aa < tempArr.length; aa++) {
-	                        MiniAdpter.subMaps[tempArr[aa]] = key + "/" + tempArr[aa];
+	                        ALIMiniAdapter.subMaps[tempArr[aa]] = key + "/" + tempArr[aa];
 	                    }
 	                }
 	            }
-	            if (MiniAdpter.subNativeFiles && url.indexOf("/") != -1) {
+	            if (ALIMiniAdapter.subNativeFiles && url.indexOf("/") != -1) {
 	                var curfileHead = url.split("/")[0] + "/";
-	                if (curfileHead && MiniAdpter.subNativeheads.indexOf(curfileHead) != -1) {
-	                    var newfileHead = MiniAdpter.subMaps[curfileHead];
+	                if (curfileHead && ALIMiniAdapter.subNativeheads.indexOf(curfileHead) != -1) {
+	                    var newfileHead = ALIMiniAdapter.subMaps[curfileHead];
 	                    url = url.replace(curfileHead, newfileHead);
 	                }
 	            }
 	        }
 	        if (!MiniFileMgr.getFileInfo(url)) {
-	            if (url.indexOf(MiniAdpter.window.wx.env.USER_DATA_PATH) == -1 && (url.indexOf("http://") != -1 || url.indexOf("https://") != -1)) {
-	                if (MiniAdpter.isZiYu) {
+	            if (url.indexOf('http://usr/') == -1 && (url.indexOf("http://") != -1 || url.indexOf("https://") != -1)) {
+	                if (ALIMiniAdapter.isZiYu) {
 	                    MiniImage.onCreateImage(url, thisLoader, true);
 	                }
 	                else {
-	                    MiniFileMgr.downOtherFiles(url, new Laya.Handler(MiniImage, MiniImage.onDownImgCallBack, [url, thisLoader]), url);
+	                    MiniFileMgr.downOtherFiles(encodeURI(url), new Laya.Handler(MiniImage, MiniImage.onDownImgCallBack, [url, thisLoader]), url);
 	                }
 	            }
 	            else
@@ -1380,7 +1383,7 @@ window.wxMiniGame = function (exports, Laya) {
 	    }
 	    static onCreateImage(sourceUrl, thisLoader, isLocal = false, tempFilePath = "") {
 	        var fileNativeUrl;
-	        if (MiniAdpter.autoCacheFile) {
+	        if (ALIMiniAdapter.autoCacheFile) {
 	            if (!isLocal) {
 	                if (tempFilePath != "") {
 	                    fileNativeUrl = tempFilePath;
@@ -1391,7 +1394,7 @@ window.wxMiniGame = function (exports, Laya) {
 	                    fileNativeUrl = MiniFileMgr.getFileNativePath(fileMd5Name);
 	                }
 	            }
-	            else if (MiniAdpter.isZiYu) {
+	            else if (ALIMiniAdapter.isZiYu) {
 	                var tempUrl = Laya.URL.formatURL(sourceUrl);
 	                if (MiniFileMgr.ziyuFileTextureData[tempUrl]) {
 	                    fileNativeUrl = MiniFileMgr.ziyuFileTextureData[tempUrl];
@@ -1459,16 +1462,16 @@ window.wxMiniGame = function (exports, Laya) {
 	    constructor() {
 	    }
 	    static __init__() {
-	        MiniAdpter.window.navigator.geolocation.getCurrentPosition = MiniLocation.getCurrentPosition;
-	        MiniAdpter.window.navigator.geolocation.watchPosition = MiniLocation.watchPosition;
-	        MiniAdpter.window.navigator.geolocation.clearWatch = MiniLocation.clearWatch;
+	        ALIMiniAdapter.window.navigator.geolocation.getCurrentPosition = MiniLocation.getCurrentPosition;
+	        ALIMiniAdapter.window.navigator.geolocation.watchPosition = MiniLocation.watchPosition;
+	        ALIMiniAdapter.window.navigator.geolocation.clearWatch = MiniLocation.clearWatch;
 	    }
 	    static getCurrentPosition(success = null, error = null, options = null) {
 	        var paramO;
 	        paramO = {};
 	        paramO.success = getSuccess;
 	        paramO.fail = error;
-	        MiniAdpter.window.wx.getLocation(paramO);
+	        ALIMiniAdapter.window.my.getLocation(paramO);
 	        function getSuccess(res) {
 	            if (success != null) {
 	                success(res);
@@ -1529,7 +1532,7 @@ window.wxMiniGame = function (exports, Laya) {
 	    constructor(width = 320, height = 240) {
 	        this.videoend = false;
 	        this.videourl = "";
-	        this.videoElement = MiniAdpter.window.wx.createVideo({ width: width, height: height, autoplay: true });
+	        this.videoElement = ALIMiniAdapter.window.my.createVideo({ width: width, height: height, autoplay: true });
 	    }
 	    static __init__() {
 	    }
@@ -1694,8 +1697,8 @@ window.wxMiniGame = function (exports, Laya) {
 	    }
 	}
 
+	exports.ALIMiniAdapter = ALIMiniAdapter;
 	exports.MiniAccelerator = MiniAccelerator;
-	exports.MiniAdpter = MiniAdpter;
 	exports.MiniFileMgr = MiniFileMgr;
 	exports.MiniImage = MiniImage;
 	exports.MiniInput = MiniInput;

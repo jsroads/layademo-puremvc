@@ -1,4 +1,4 @@
-// v1.3.0
+// v1.4.0
 // publish 2.x 也是用这个文件，需要做兼容
 let isPublish2 = process.argv[2].includes("publish_vivogame.js") && process.argv[3].includes("--evn=publish2");
 // 获取Node插件和工作路径
@@ -41,6 +41,10 @@ let
 	isExistEngineFolder = false; // bin目录下是否存在engine文件夹
 let projSrc;
 let versionCon; // 版本管理version.json
+let layarepublicPath = path.join(ideModuleDir, "../", "code", "layarepublic");
+if (!fs.existsSync(layarepublicPath)) {
+	layarepublicPath = path.join(ideModuleDir, "../", "out", "layarepublic");
+}
 // 创建vivo项目前，拷贝vivo引擎库、修改index.js
 // 应该在publish中的，但是为了方便发布2.0及IDE 1.x，放在这里修改
 gulp.task("preCreate_VIVO", copyLibsTask, function() {
@@ -75,7 +79,7 @@ gulp.task("copyPlatformFile_VIVO", ["preCreate_VIVO"], function() {
 	if (platform !== "vivogame") {
 		return;
 	}
-	let vivoAdapterPath = path.join(ideModuleDir, "../", "out", "layarepublic", "LayaAirProjectPack", "lib", "data", "vivofiles");
+	let vivoAdapterPath = path.join(layarepublicPath, "LayaAirProjectPack", "lib", "data", "vivofiles");
 	let copyLibsList = [`${vivoAdapterPath}/**/*.*`];
 	var stream = gulp.src(copyLibsList);
 	return stream.pipe(gulp.dest(tempReleaseDir));

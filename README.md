@@ -231,5 +231,7 @@ Layabox2.x 集成 PureMVC框架 以及常用类库
 
 ### 更新日志：
 
+- 2020年01月14日
+  - 更新引擎到 Layabox 2.5.0bata
 - 2019年12月20日  
   - 更新引擎到 Layabox 2.4.0bata

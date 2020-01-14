@@ -1,4 +1,4 @@
-// v1.3.0
+// v1.4.0
 // publish 2.x 也是用这个文件，需要做兼容
 let isPublish2 = process.argv[2].includes("publish_oppogame.js") && process.argv[3].includes("--evn=publish2");
 // 获取Node插件和工作路径
@@ -37,6 +37,10 @@ let
     tempReleaseDir, // OPPO临时拷贝目录
 	projDir; // OPPO快游戏工程目录
 let versionCon; // 版本管理version.json
+let layarepublicPath = path.join(ideModuleDir, "../", "code", "layarepublic");
+if (!fs.existsSync(layarepublicPath)) {
+	layarepublicPath = path.join(ideModuleDir, "../", "out", "layarepublic");
+}
 // 创建OPPO项目前，拷贝OPPO引擎库、修改index.js
 // 应该在publish中的，但是为了方便发布2.0及IDE 1.x，放在这里修改
 gulp.task("preCreate_OPPO", copyLibsTask, function() {
@@ -54,7 +58,7 @@ gulp.task("preCreate_OPPO", copyLibsTask, function() {
 		tempReleaseDir = global.tempReleaseDir;
 		config = global.config;
 	}
-    toolkitPath = path.join(ideModuleDir, "../", "out", "layarepublic", "oppo", "quickgame-toolkit");
+    toolkitPath = path.join(layarepublicPath, "oppo", "quickgame-toolkit");
 	// 如果不是OPPO快游戏
 	if (platform !== "oppogame") {
 		return;
@@ -366,7 +370,7 @@ gulp.task("pushRPK_OPPO", ["buildRPK_OPPO"], function() {
     }
 	// 在OPPO轻游戏项目目录中执行:
     // adb push dist/game.rpk sdcard/games
-	// adb push idePath/resources/app/out/layarepublic/oppo/instant_app_settings.properties
+	// adb push layarepublicPath/oppo/instant_app_settings.properties
 	// adb shell am start -n com.nearme.instant.platform/com.oppo.autotest.main.InstantAppActivity
 	return new Promise((resolve, reject) => {
 		let cmd = "adb";
@@ -394,7 +398,7 @@ gulp.task("pushRPK_OPPO", ["buildRPK_OPPO"], function() {
 	}).then(() => {
 		return new Promise((resolve, reject) => {
 			// 如果是分包，需要修改里面的内容
-			let oppoPropPath = path.join(ideModuleDir, "../", `/out/layarepublic/oppo/instant_app_settings.properties`);
+			let oppoPropPath = path.join(layarepublicPath, "oppo", "instant_app_settings.properties");
 			if (config.oppoInfo.subpack) {
 				fs.writeFileSync(oppoPropPath, "default_tab_index=4", "utf8");
 			} else {
